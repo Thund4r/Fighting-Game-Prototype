@@ -40,6 +40,7 @@ public class EnemyMovement : MonoBehaviour
                 timer = 0;
                 Vector3 knockbackDirection = (transform.position - player.transform.position).normalized;
                 agent.GetComponent<Rigidbody>().AddForce(knockbackDirection * 700f);
+                GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(10);
 
             }
             if (health <= 0)

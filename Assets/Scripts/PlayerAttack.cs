@@ -73,6 +73,7 @@ public class PlayerAttack : MonoBehaviour
             Vector3 direction = (closestEnemy.position - player.transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             player.transform.rotation = lookRotation;
+            Debug.Log(Time.time);
             player.GetComponent<InputManager>().ToggleMove(false);
         }
 
@@ -80,7 +81,6 @@ public class PlayerAttack : MonoBehaviour
 
     public void EndFaceEnemy()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<InputManager>().ToggleMove(true);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<InputManager>().ToggleMove(true);
     }
 }

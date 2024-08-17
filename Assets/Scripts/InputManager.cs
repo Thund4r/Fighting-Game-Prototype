@@ -53,6 +53,7 @@ public class InputManager : MonoBehaviour
 
     public void ToggleMove(bool value)
     {
+        Debug.Log("Move Toggled - "+value);
         canMove = value;
         GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCam>().ToggleTurn(value);
         if (!canMove){    
