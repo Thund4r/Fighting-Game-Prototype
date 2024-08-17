@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5976354057466752947}
   - component: {fileID: 3336687678741998798}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Weapon
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -101,7 +101,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 4266161845109058658}
   - component: {fileID: 3884553039448297087}
   - component: {fileID: 7190799703340369372}
-  - component: {fileID: 2318773618370796318}
+  - component: {fileID: 1073209388074559071}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -307,8 +307,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraT: {fileID: 1557415985488557328}
-  speed: 5
---- !u!143 &2318773618370796318
+  speed: 7
+--- !u!143 &1073209388074559071
 CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

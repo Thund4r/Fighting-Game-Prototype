@@ -10,6 +10,7 @@ public class InputManager : MonoBehaviour
 
     private PlayerMotor playerMotor;
     private PlayerAttack playerAttack;
+    private bool canMove = true;
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,7 +27,15 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        playerMotor.ProcessMove(ground.Movement.ReadValue<Vector2>());
+        if (canMove == true)
+        {
+            playerMotor.ProcessMove(ground.Movement.ReadValue<Vector2>());
+        }
+        else
+        {
+            playerMotor.ProcessMove(Vector2.zero);
+        }
+
     }
 
     private void LateUpdate()
@@ -40,6 +49,15 @@ public class InputManager : MonoBehaviour
     private void OnDisable()
     {
         ground.Disable();
+    }
+
+    public void ToggleMove(bool value)
+    {
+        canMove = value;
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCam>().ToggleTurn(value);
+        if (!canMove){    
+            playerMotor.ProcessMove(Vector2.zero);
+        }
     }
 
 }

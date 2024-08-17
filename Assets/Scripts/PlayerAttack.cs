@@ -46,4 +46,41 @@ public class PlayerAttack : MonoBehaviour
         }
         
     }
+
+    public void BeginFaceEnemy()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        float closestDistance = Mathf.Infinity;
+        Transform closestEnemy = null;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 10f);
+        foreach (Collider hit in colliders)
+        {
+
+            if (hit.name == "Enemy")
+            {
+                Vector3 distance = hit.transform.position - player.transform.position;
+                float distanceSq = distance.sqrMagnitude;
+                if (distanceSq < closestDistance)
+                {
+                    closestDistance = distanceSq;
+                    closestEnemy = hit.transform;
+                }
+
+            }
+        }
+        if (closestEnemy != null)
+        {
+            Vector3 direction = (closestEnemy.position - player.transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            player.transform.rotation = lookRotation;
+            player.GetComponent<InputManager>().ToggleMove(false);
+        }
+
+    }
+
+    public void EndFaceEnemy()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<InputManager>().ToggleMove(true);
+    }
 }
