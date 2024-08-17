@@ -9,17 +9,16 @@ public class InputManager : MonoBehaviour
     private PlayerControls.GroundActions ground;
 
     private PlayerMotor playerMotor;
-    //private PlayerLook playerLook;
-    //private PlayerShoot playerShoot;
+    private PlayerAttack playerAttack;
     // Start is called before the first frame update
     void Awake()
     {
         playerInput = new PlayerControls();
         ground = playerInput.Ground;
         playerMotor = GetComponent<PlayerMotor>();
-        //playerLook = GetComponent<PlayerLook>();
+        playerAttack = GameObject.FindGameObjectWithTag("Weapon").GetComponent<PlayerAttack>();
         //playerShoot = GetComponent<PlayerShoot>();
-        //ground.Shoot.performed += ctx => playerShoot.Shoot();
+        ground.Attack.performed += ctx => playerAttack.Attack();
         //ground.ShootEnergy.performed += ctx => playerShoot.ShootEnergy();
         //ground.Dash.performed += ctx => playerMotor.Dash();
     }
@@ -32,7 +31,6 @@ public class InputManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        //playerLook.ProcessLook(ground.Look.ReadValue<Vector2>());
     }
 
     private void OnEnable()
