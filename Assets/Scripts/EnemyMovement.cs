@@ -7,7 +7,7 @@ public class EnemyMovement : MonoBehaviour
     public float movementSpeed;
     public GameObject agent;
     public int health;
-    private float IFrame = 1f;
+    private float IFrame = 0.5f;
     private float timer;
     private GameObject player;
 
@@ -37,7 +37,6 @@ public class EnemyMovement : MonoBehaviour
             if (collision.gameObject.name == "Weapon")
             {
                 health -= 1;
-                Debug.Log(health);
                 timer = 0;
                 Vector3 knockbackDirection = (transform.position - player.transform.position).normalized;
                 agent.GetComponent<Rigidbody>().AddForce(knockbackDirection * 700f);
@@ -51,6 +50,14 @@ public class EnemyMovement : MonoBehaviour
         }
         
 
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().TakeDamage(10);
+        }
     }
 
     public void death()
