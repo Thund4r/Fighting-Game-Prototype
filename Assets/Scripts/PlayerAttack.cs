@@ -9,7 +9,7 @@ public class PlayerAttack : MonoBehaviour
     private int noOfClicks = 0;
 
     float lastClickedTime = 0f;
-    float maxComboDelay = 1f;
+    float maxComboDelay = 0.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -33,14 +33,17 @@ public class PlayerAttack : MonoBehaviour
         noOfClicks = Mathf.Clamp(noOfClicks, 0, 3);
         if (noOfClicks == 1)
         {
+            Debug.Log("Attack1 triggered");
             mAnimator.SetTrigger("Attack1");
         }
-        else if (noOfClicks >= 2 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack 1"))
+        if (noOfClicks >= 2 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack 1"))
         {
+            Debug.Log("Attack2 triggered");
             mAnimator.SetTrigger("Attack2");
         }
-        else if (noOfClicks >= 3 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack 2"))
+        if (noOfClicks >= 3 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack 2"))
         {
+            Debug.Log("Attack3 triggered");
             mAnimator.SetTrigger("Attack3");
             noOfClicks = 0;
         }
@@ -73,7 +76,6 @@ public class PlayerAttack : MonoBehaviour
             Vector3 direction = (closestEnemy.position - player.transform.position).normalized;
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             player.transform.rotation = lookRotation;
-            Debug.Log(Time.time);
             player.GetComponent<InputManager>().ToggleMove(false);
         }
 
