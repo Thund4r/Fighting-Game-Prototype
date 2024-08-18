@@ -6,13 +6,17 @@ public class EnemyMovement : MonoBehaviour
 {
     public float movementSpeed;
     public GameObject agent;
+    public EnemyAttack attack;
+    public float aggro;
     public int health;
-    private float IFrame = 0.5f;
+    private float IFrame;
     private float timer;
     private GameObject player;
-
+    private float distance;
+    
     private bool alive = true;
     private bool canMove = true;
+    private bool isParryable = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +31,11 @@ public class EnemyMovement : MonoBehaviour
             agent.transform.LookAt(player.transform);
             transform.position += transform.forward * Time.deltaTime * movementSpeed;
             timer += Time.deltaTime;
+            distance = (player.transform.position - transform.position).sqrMagnitude;
+            if (distance < aggro)
+            {
+                attackRoutine();
+            }
         }
     }
 
@@ -44,20 +53,28 @@ public class EnemyMovement : MonoBehaviour
                 GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(10);
 
             }
-            if (collision.gameObject.name == "Player")
-            {
-                GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().TakeDamage(10);
-            }
+            
             if (health <= 0)
             {
                 death();
                 
             }
         }
-        
+        if (collision.gameObject.name == "Player")
+        {
+            GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().TakeDamage(10);
+        }
+
 
     }
 
+    private void attackRoutine()
+    {
+        canMove = false;
+        isParryable = true;
+        attack.triggerAttack();
+
+    }
     public void death()
     {
         alive = false;
