@@ -11,9 +11,11 @@ public class InputManager : MonoBehaviour
     private PlayerMotor playerMotor;
     private PlayerAttack playerAttack;
     private bool canMove = true;
+    private GameObject playerHUD;
     // Start is called before the first frame update
     void Awake()
     {
+        playerHUD = GameObject.FindGameObjectWithTag("PlayerHUD");
         playerInput = new PlayerControls();
         ground = playerInput.Ground;
         playerMotor = GetComponent<PlayerMotor>();
@@ -21,7 +23,11 @@ public class InputManager : MonoBehaviour
         //playerShoot = GetComponent<PlayerShoot>();
         ground.Attack.performed += ctx => playerAttack.Attack();
         //ground.ShootEnergy.performed += ctx => playerShoot.ShootEnergy();
-        //ground.Dash.performed += ctx => playerMotor.Dash();
+        ground.Dodge.performed += ctx =>
+        {
+            playerMotor.Dodge();
+            playerHUD.GetComponent<PlayerHealth>().Dodge();
+        };
     }
 
     // Update is called once per frame

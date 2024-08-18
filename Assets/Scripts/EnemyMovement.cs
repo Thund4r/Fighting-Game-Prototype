@@ -12,6 +12,7 @@ public class EnemyMovement : MonoBehaviour
     private GameObject player;
 
     private bool alive = true;
+    private bool canMove = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +22,7 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (alive)
+        if (alive && canMove)
         {
             agent.transform.LookAt(player.transform);
             transform.position += transform.forward * Time.deltaTime * movementSpeed;

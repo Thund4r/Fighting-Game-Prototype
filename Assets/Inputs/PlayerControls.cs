@@ -53,6 +53,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Dodge"",
+                    ""type"": ""Button"",
+                    ""id"": ""5ed593c9-bd0c-4c80-bfa3-62a2d29858f2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -132,6 +141,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ca9bebc-ccfd-4e85-a3ca-93dbfe5e3c58"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,6 +163,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Ground_Movement = m_Ground.FindAction("Movement", throwIfNotFound: true);
         m_Ground_Look = m_Ground.FindAction("Look", throwIfNotFound: true);
         m_Ground_Attack = m_Ground.FindAction("Attack", throwIfNotFound: true);
+        m_Ground_Dodge = m_Ground.FindAction("Dodge", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -207,6 +228,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Ground_Movement;
     private readonly InputAction m_Ground_Look;
     private readonly InputAction m_Ground_Attack;
+    private readonly InputAction m_Ground_Dodge;
     public struct GroundActions
     {
         private @PlayerControls m_Wrapper;
@@ -214,6 +236,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Ground_Movement;
         public InputAction @Look => m_Wrapper.m_Ground_Look;
         public InputAction @Attack => m_Wrapper.m_Ground_Attack;
+        public InputAction @Dodge => m_Wrapper.m_Ground_Dodge;
         public InputActionMap Get() { return m_Wrapper.m_Ground; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -232,6 +255,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @Dodge.started += instance.OnDodge;
+            @Dodge.performed += instance.OnDodge;
+            @Dodge.canceled += instance.OnDodge;
         }
 
         private void UnregisterCallbacks(IGroundActions instance)
@@ -245,6 +271,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @Dodge.started -= instance.OnDodge;
+            @Dodge.performed -= instance.OnDodge;
+            @Dodge.canceled -= instance.OnDodge;
         }
 
         public void RemoveCallbacks(IGroundActions instance)
@@ -267,5 +296,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnDodge(InputAction.CallbackContext context);
     }
 }

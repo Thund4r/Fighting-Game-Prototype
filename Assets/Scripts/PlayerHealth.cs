@@ -7,9 +7,11 @@ public class PlayerHealth : MonoBehaviour
 {
     private float maxHP = 100f;
     private float health;
-    private float timer;
+    private float Itimer;
+    private float Dtimer;
     public Image RedHealth;
     public float Iframe = 1f;
+    public float Dframe = 0.4f;
 
 
     // Start is called before the first frame update
@@ -22,9 +24,13 @@ public class PlayerHealth : MonoBehaviour
     void Update()
     {
 
-        if (timer > 0)
+        if (Itimer > 0)
         {
-            timer -= Time.deltaTime;
+            Itimer -= Time.deltaTime;
+        }
+        if (Dtimer > 0)
+        {
+            Dtimer -= Time.deltaTime;
         }
 
         health = Mathf.Clamp(health, 0, maxHP);
@@ -43,11 +49,16 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        if (timer <= 0)
+        if (Itimer <= 0 && Dtimer <= 0)
         {
             health -= damage;
-            timer = Iframe;
+            Itimer = Iframe;
         }
 
+    }
+
+    public void Dodge()
+    {
+            Dtimer = Dframe;
     }
 }
