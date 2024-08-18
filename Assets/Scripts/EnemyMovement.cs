@@ -44,6 +44,10 @@ public class EnemyMovement : MonoBehaviour
                 GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(10);
 
             }
+            if (collision.gameObject.name == "Player")
+            {
+                GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().TakeDamage(10);
+            }
             if (health <= 0)
             {
                 death();
@@ -52,14 +56,6 @@ public class EnemyMovement : MonoBehaviour
         }
         
 
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.name == "Player")
-        {
-            GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().TakeDamage(10);
-        }
     }
 
     public void death()
