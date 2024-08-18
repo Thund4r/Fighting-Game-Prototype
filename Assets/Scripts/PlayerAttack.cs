@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-
+    private bool faceEnemy;
     public Animator mAnimator;
     private int noOfClicks = 0;
 
@@ -26,6 +26,38 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    void LateUpdate()
+    {
+        if (faceEnemy)
+        {
+            float closestDistance = Mathf.Infinity;
+            Transform closestEnemy = null;
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 10f);
+            foreach (Collider hit in colliders)
+            {
+
+                if (hit.name == "Enemy")
+                {
+                    Vector3 distance = hit.transform.position - transform.position;
+                    float distanceSq = distance.sqrMagnitude;
+                    if (distanceSq < closestDistance)
+                    {
+                        closestDistance = distanceSq;
+                        closestEnemy = hit.transform;
+                    }
+
+                }
+            }
+            if (closestEnemy != null)
+            {
+                Vector3 direction = (closestEnemy.position - transform.position).normalized;
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                this.transform.rotation = lookRotation;
+                GetComponent<InputManager>().ToggleMove(false);
+            }
+        }
+    }
+
     public void Attack()
     {
         lastClickedTime = Time.time;
@@ -33,17 +65,14 @@ public class PlayerAttack : MonoBehaviour
         noOfClicks = Mathf.Clamp(noOfClicks, 0, 3);
         if (noOfClicks == 1)
         {
-            Debug.Log("Attack1 triggered");
             mAnimator.SetTrigger("Attack1");
         }
         if (noOfClicks >= 2 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack 1"))
         {
-            Debug.Log("Attack2 triggered");
             mAnimator.SetTrigger("Attack2");
         }
         if (noOfClicks >= 3 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack 2"))
         {
-            Debug.Log("Attack3 triggered");
             mAnimator.SetTrigger("Attack3");
             noOfClicks = 0;
         }
@@ -52,7 +81,18 @@ public class PlayerAttack : MonoBehaviour
 
     public void BeginFaceEnemy()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        faceEnemy = true;
+
+    }
+
+    public void EndFaceEnemy()
+    {
+        faceEnemy = false;
+        GetComponent<InputManager>().ToggleMove(true);
+    }
+
+    public void ParryCheck()
+    {
         float closestDistance = Mathf.Infinity;
         Transform closestEnemy = null;
         Collider[] colliders = Physics.OverlapSphere(transform.position, 10f);
@@ -61,28 +101,22 @@ public class PlayerAttack : MonoBehaviour
 
             if (hit.name == "Enemy")
             {
-                Vector3 distance = hit.transform.position - player.transform.position;
-                float distanceSq = distance.sqrMagnitude;
-                if (distanceSq < closestDistance)
+                if (hit.GetComponent<EnemyMovement>().isParryable)
                 {
-                    closestDistance = distanceSq;
-                    closestEnemy = hit.transform;
+                    Vector3 distance = hit.transform.position - transform.position;
+                    float distanceSq = distance.sqrMagnitude;
+                    if (distanceSq < closestDistance)
+                    {
+                        closestDistance = distanceSq;
+                        closestEnemy = hit.transform;
+                    }
                 }
-
             }
         }
         if (closestEnemy != null)
         {
-            Vector3 direction = (closestEnemy.position - player.transform.position).normalized;
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            player.transform.rotation = lookRotation;
-            player.GetComponent<InputManager>().ToggleMove(false);
+            closestEnemy.gameObject.GetComponent<Animator>().SetTrigger("Parry");
+            GetComponent<Animator>().SetTrigger("Parry");
         }
-
-    }
-
-    public void EndFaceEnemy()
-    {
-        GameObject.FindGameObjectWithTag("Player").GetComponent<InputManager>().ToggleMove(true);
     }
 }

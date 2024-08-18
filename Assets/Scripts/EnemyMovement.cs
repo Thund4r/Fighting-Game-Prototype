@@ -9,14 +9,15 @@ public class EnemyMovement : MonoBehaviour
     public EnemyAttack attack;
     public float aggro;
     public int health;
+    public bool isParryable = false;
+
     private float IFrame;
     private float timer;
     private GameObject player;
-    private float distance;
-    
+    private float distance;  
     private bool alive = true;
     private bool canMove = true;
-    private bool isParryable = false;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -24,19 +25,19 @@ public class EnemyMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (alive && canMove)
         {
             agent.transform.LookAt(player.transform);
             transform.position += transform.forward * Time.deltaTime * movementSpeed;
-            timer += Time.deltaTime;
             distance = (player.transform.position - transform.position).sqrMagnitude;
             if (distance < aggro)
             {
                 attackRoutine();
             }
         }
+        timer += Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider collision)

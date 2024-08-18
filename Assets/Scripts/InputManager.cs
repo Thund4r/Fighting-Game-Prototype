@@ -19,15 +19,14 @@ public class InputManager : MonoBehaviour
         playerInput = new PlayerControls();
         ground = playerInput.Ground;
         playerMotor = GetComponent<PlayerMotor>();
-        playerAttack = GameObject.FindGameObjectWithTag("Weapon").GetComponent<PlayerAttack>();
-        //playerShoot = GetComponent<PlayerShoot>();
+        playerAttack = GetComponent<PlayerAttack>();
         ground.Attack.performed += ctx => playerAttack.Attack();
-        //ground.ShootEnergy.performed += ctx => playerShoot.ShootEnergy();
         ground.Dodge.performed += ctx =>
         {
             playerMotor.Dodge();
             playerHUD.GetComponent<PlayerHealth>().Dodge();
         };
+        ground.Parry.performed += ctx => playerAttack.ParryCheck();
     }
 
     // Update is called once per frame
