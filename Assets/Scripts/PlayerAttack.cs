@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
@@ -127,7 +128,7 @@ public class PlayerAttack : MonoBehaviour
         Vector3 direction = (enemy.position - transform.position).normalized;
         direction.y = 0; // Ensure the player stays level on the ground
         transform.rotation = Quaternion.LookRotation(direction);
-        enemy.gameObject.transform.rotation = Quaternion.LookRotation(-direction);
+        enemy.gameObject.GetComponent<EnemyMovement>().agent.transform.rotation = Quaternion.LookRotation(-direction);
     }
     private IEnumerator ParryAnimation(Transform closestEnemy)
     {
@@ -135,7 +136,9 @@ public class PlayerAttack : MonoBehaviour
         transform.position = closestEnemy.position + direction * 1.4f;
         closestEnemy.gameObject.GetComponent<Animator>().SetTrigger("Parry");
         mAnimator.SetTrigger("Parry");
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.1f);
+        closestEnemy.gameObject.GetComponent<EnemyMovement>().agent.GetComponent<Rigidbody>().AddForce(-direction * 1000f);
+        yield return new WaitForSeconds(0.3f);
         EndFaceEnemy();
     }
 }
