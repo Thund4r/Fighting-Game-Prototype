@@ -132,12 +132,15 @@ public class PlayerAttack : MonoBehaviour
     }
     private IEnumerator ParryAnimation(Transform closestEnemy)
     {
+        EnemyMovement enemyMovement = closestEnemy.gameObject.GetComponent<EnemyMovement>();
         Vector3 direction = (transform.position - closestEnemy.position).normalized;
         transform.position = closestEnemy.position + direction * 1.4f;
+
+        enemyMovement.attack.Parried();
         closestEnemy.gameObject.GetComponent<Animator>().SetTrigger("Parry");
         mAnimator.SetTrigger("Parry");
         yield return new WaitForSeconds(0.1f);
-        closestEnemy.gameObject.GetComponent<EnemyMovement>().agent.GetComponent<Rigidbody>().AddForce(-direction * 1000f);
+        enemyMovement.agent.GetComponent<Rigidbody>().AddForce(-direction * 1500f);
         yield return new WaitForSeconds(0.3f);
         EndFaceEnemy();
     }

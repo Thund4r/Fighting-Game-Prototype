@@ -10,13 +10,14 @@ public class EnemyMovement : MonoBehaviour
     public float aggro;
     public int health;
     public bool isParryable = false;
+    public bool canMove = true;
 
     private float IFrame;
     private float timer;
     private GameObject player;
     private float distance;  
     private bool alive = true;
-    private bool canMove = true;
+    
     
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,7 @@ public class EnemyMovement : MonoBehaviour
     {
         if (alive && canMove)
         {
+            
             agent.transform.LookAt(player.transform);
             agent.GetComponent<Rigidbody>().AddForce(agent.transform.forward * movementSpeed);
             distance = (player.transform.position - transform.position).sqrMagnitude;
@@ -40,42 +42,30 @@ public class EnemyMovement : MonoBehaviour
         timer += Time.deltaTime;
     }
 
-    private void OnTriggerEnter(Collider collision)
+    public void TakeDamage(int damage)
     {
-        
         if (timer > IFrame)
         {
-            if (collision.gameObject.name == "Weapon")
-            {
-                health -= 1;
-                timer = 0;
-                Vector3 knockbackDirection = (transform.position - player.transform.position).normalized;
-                agent.GetComponent<Rigidbody>().AddForce(knockbackDirection * 800f);
-                GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(10);
+            health -= damage;
+            timer = 0;
+            Vector3 knockbackDirection = (transform.position - player.transform.position).normalized;
+            agent.GetComponent<Rigidbody>().AddForce(knockbackDirection * 800f);
+            GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(10);
 
-            }
-            
+
             if (health <= 0)
             {
                 death();
-                
+
             }
         }
-        if (collision.gameObject.name == "Player")
-        {
-            GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().TakeDamage(10);
-        }
-
-
     }
 
     private void attackRoutine()
     {
-        canMove = false;
-        isParryable = true;
         attack.triggerAttack();
-
     }
+
     public void death()
     {
         alive = false;
