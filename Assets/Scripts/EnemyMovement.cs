@@ -30,7 +30,7 @@ public class EnemyMovement : MonoBehaviour
         if (alive && canMove)
         {
             agent.transform.LookAt(player.transform);
-            transform.position += transform.forward * Time.deltaTime * movementSpeed;
+            agent.GetComponent<Rigidbody>().AddForce(agent.transform.forward * movementSpeed);
             distance = (player.transform.position - transform.position).sqrMagnitude;
             if (distance < aggro)
             {
@@ -50,7 +50,7 @@ public class EnemyMovement : MonoBehaviour
                 health -= 1;
                 timer = 0;
                 Vector3 knockbackDirection = (transform.position - player.transform.position).normalized;
-                agent.GetComponent<Rigidbody>().AddForce(knockbackDirection * 700f);
+                agent.GetComponent<Rigidbody>().AddForce(knockbackDirection * 800f);
                 GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(10);
 
             }

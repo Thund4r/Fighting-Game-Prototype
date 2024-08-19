@@ -32,9 +32,9 @@ public class EnemyAttack : MonoBehaviour
 
     public void triggerAttack()
     {
-        //this.gameObject.SetActive(true);
+        /*this.gameObject.SetActive(true);
         attack = true;
-        warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 1);
+        warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 1);*/
 
     }
 }

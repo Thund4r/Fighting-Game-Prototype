@@ -37,7 +37,7 @@ public class PlayerAttack : MonoBehaviour
             foreach (Collider hit in colliders)
             {
 
-                if (hit.name == "Enemy")
+                if (hit.name == "EnemyObj")
                 {
                     Vector3 distance = hit.transform.position - transform.position;
                     float distanceSq = distance.sqrMagnitude;
@@ -100,7 +100,7 @@ public class PlayerAttack : MonoBehaviour
         foreach (Collider hit in colliders)
         {
 
-            if (hit.name == "Enemy")
+            if (hit.name == "EnemyObj")
             {
                 if (hit.GetComponent<EnemyMovement>().isParryable)
                 {
