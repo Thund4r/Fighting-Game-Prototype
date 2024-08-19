@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class PlayerAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        mAnimator = GetComponent<Animator>();
+        mAnimator = mAnimator.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -115,8 +116,26 @@ public class PlayerAttack : MonoBehaviour
         }
         if (closestEnemy != null)
         {
-            closestEnemy.gameObject.GetComponent<Animator>().SetTrigger("Parry");
-            GetComponent<Animator>().SetTrigger("Parry");
+            FaceEnemy(closestEnemy);
+            StartCoroutine(ParryAnimation(closestEnemy));
         }
+    }
+
+    private void FaceEnemy(Transform enemy)
+    {
+        GetComponent<InputManager>().ToggleMove(false);
+        Vector3 direction = (enemy.position - transform.position).normalized;
+        direction.y = 0; // Ensure the player stays level on the ground
+        transform.rotation = Quaternion.LookRotation(direction);
+        enemy.gameObject.transform.rotation = Quaternion.LookRotation(-direction);
+    }
+    private IEnumerator ParryAnimation(Transform closestEnemy)
+    {
+        Vector3 direction = (transform.position - closestEnemy.position).normalized;
+        transform.position = closestEnemy.position + direction * 1.4f;
+        closestEnemy.gameObject.GetComponent<Animator>().SetTrigger("Parry");
+        mAnimator.SetTrigger("Parry");
+        yield return new WaitForSeconds(0.4f);
+        EndFaceEnemy();
     }
 }

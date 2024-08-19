@@ -37,7 +37,14 @@ public class PlayerMotor : MonoBehaviour
             right.y = 0f;
 
             Vector3 moveDirection = forward.normalized * input.y + right.normalized * input.x;
-            moveDirection.y = -10f;  // Keep gravity
+            moveDirection.y = 0f;  // Keep gravity
+
+            if (moveDirection != Vector3.zero)
+            {
+                // Rotate the player to face the direction of movement
+                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            }
             controller.Move(moveDirection * speed * Time.deltaTime);
         }
     }
@@ -48,7 +55,6 @@ public class PlayerMotor : MonoBehaviour
         {
             isDodge = true;
 
-            // Temporarily disable the Rigidbody
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.isKinematic = true;
             rb.detectCollisions = false;
@@ -77,7 +83,6 @@ public class PlayerMotor : MonoBehaviour
         dodgeVelocity = Vector3.zero;
         isDodge = false;
 
-        // Re-enable the Rigidbody after the dodge
         rb.isKinematic = false;
         rb.detectCollisions = true;
     }

@@ -6,7 +6,6 @@ public class ThirdPersonCam : MonoBehaviour
 {
     public Transform orientation;
     public Transform playerObj;
-    public Rigidbody rb;
 
     public float rotationSpeed;
     public bool canTurn = true;
