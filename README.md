@@ -15,6 +15,7 @@ To be added -
 * Energy-consuming attacks (EX-Specials)
 * Sprint
 * Parry resource
+* Enemy healthbar
 * Ranged Enemy attacks
 * More dynamic animations
 * TBD
