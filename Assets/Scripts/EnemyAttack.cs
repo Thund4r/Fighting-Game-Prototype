@@ -47,7 +47,6 @@ public class EnemyAttack : MonoBehaviour
         {
             enemyMovement.canMove = false;
             timer = 0;
-            Debug.Log(Random.Range(0f, 2f));
             if (Random.Range(0f, 2f) >= 0.5)
             {
                 enemyMovement.isParryable = true;
