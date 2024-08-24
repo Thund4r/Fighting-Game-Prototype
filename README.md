@@ -9,7 +9,9 @@ Content added -
 * Parry animation & physics
 
 To be added -
-* Enemy attack warning & hitbox
+* Undodgable-Enemy attack warning & hitbox
+* Ranged Enemy attacks
+* Perfect dodge (Time slow?)
 * Energy-consuming attacks (EX-Specials)
 * More dynamic animations
 * Hit-reg animations (SFX and VFX)
