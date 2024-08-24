@@ -9,6 +9,7 @@ public class PlayerMotor : MonoBehaviour
     public Transform cameraT;
     public float speed = 5f;
     private bool isDodge = false;
+    public bool perfectDodge = false;
     private Vector3 dodgeVelocity;
     private float Dframe;
 
@@ -37,7 +38,6 @@ public class PlayerMotor : MonoBehaviour
             right.y = 0f;
 
             Vector3 moveDirection = forward.normalized * input.y + right.normalized * input.x;
-            moveDirection.y = 0f;  // Keep gravity
 
             if (moveDirection != Vector3.zero)
             {
@@ -45,6 +45,12 @@ public class PlayerMotor : MonoBehaviour
                 Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
             }
+
+            if (!controller.isGrounded)
+            {
+                moveDirection.y = -9.8f;
+            }
+
             controller.Move(moveDirection * speed * Time.deltaTime);
         }
     }
@@ -53,14 +59,26 @@ public class PlayerMotor : MonoBehaviour
     {
         if (!isDodge)
         {
-            isDodge = true;
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 10f);
+            foreach (Collider hit in colliders)
+            {
 
-            Rigidbody rb = GetComponent<Rigidbody>();
+                if (hit.name == "EnemyObj")
+                {
+                    if (hit.GetComponent<EnemyMovement>().isAttacking)
+                    {
+                        Time.timeScale = 0.3f;
+                        perfectDodge = true;
+                    }
+                }
+            }
+            isDodge = true;
+            Rigidbody rb = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
             rb.isKinematic = true;
             rb.detectCollisions = false;
 
             Vector3 dashDirection = transform.TransformDirection(Vector3.forward);
-            dodgeVelocity = dashDirection * speed * 7f;
+            dodgeVelocity = dashDirection * speed * 5f;
 
             StartCoroutine(DecayDodgeVelocity(rb));
         }
@@ -79,9 +97,10 @@ public class PlayerMotor : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
+        Time.timeScale = 1f;
         dodgeVelocity = Vector3.zero;
         isDodge = false;
+        perfectDodge = false;
 
         rb.isKinematic = false;
         rb.detectCollisions = true;

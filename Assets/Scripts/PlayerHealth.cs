@@ -12,6 +12,7 @@ public class PlayerHealth : MonoBehaviour
     public Image RedHealth;
     public float Iframe = 1f;
     public float Dframe = 0.4f;
+    public float PDframe = 0.8f;
 
 
     // Start is called before the first frame update
@@ -59,6 +60,11 @@ public class PlayerHealth : MonoBehaviour
 
     public void Dodge()
     {
-            Dtimer = Dframe;
-    }
+        if (GameObject.FindGameObjectWithTag("PlayerController").GetComponent<PlayerMotor>().perfectDodge)
+        {
+            Dtimer = PDframe;
+        }
+        else { Dtimer = Dframe; }
+
+        }
 }

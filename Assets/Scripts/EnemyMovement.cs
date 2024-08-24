@@ -11,6 +11,7 @@ public class EnemyMovement : MonoBehaviour
     public int health;
     public bool isParryable = false;
     public bool canMove = true;
+    public bool isAttacking = false;
 
     private float IFrame;
     private float timer;
