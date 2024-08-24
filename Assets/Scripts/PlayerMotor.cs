@@ -7,7 +7,9 @@ public class PlayerMotor : MonoBehaviour
 {
     private CharacterController controller;
     public Transform cameraT;
-    public float speed = 5f;
+    private float speed;
+    public float walkSpeed = 5f;
+    public float sprintSpeed = 8f;
     private bool isDodge = false;
     public bool perfectDodge = false;
     private Vector3 dodgeVelocity;
@@ -15,6 +17,7 @@ public class PlayerMotor : MonoBehaviour
 
     void Start()
     {
+        speed = walkSpeed;
         controller = GetComponent<CharacterController>();
         Dframe = GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().Dframe;
     }
@@ -55,14 +58,19 @@ public class PlayerMotor : MonoBehaviour
         }
     }
 
-    public void Dodge()
+    public void Sprint(bool value)
+    {
+        if (value) {speed = sprintSpeed;}
+        else {speed = walkSpeed;}
+    }
+
+    public void Dodge(Vector2 input)
     {
         if (!isDodge)
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, 10f);
             foreach (Collider hit in colliders)
             {
-
                 if (hit.name == "EnemyObj")
                 {
                     if (hit.GetComponent<EnemyMovement>().isAttacking)
@@ -72,12 +80,19 @@ public class PlayerMotor : MonoBehaviour
                     }
                 }
             }
+
             isDodge = true;
             Rigidbody rb = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
             rb.isKinematic = true;
             rb.detectCollisions = false;
+            Vector3 forward = cameraT.forward;
+            Vector3 right = cameraT.right;
 
-            Vector3 dashDirection = transform.TransformDirection(Vector3.forward);
+            forward.y = 0f; 
+            right.y = 0f;   
+
+            Vector3 dashDirection = (forward * input.y + right * input.x).normalized;
+
             dodgeVelocity = dashDirection * speed * 5f;
 
             StartCoroutine(DecayDodgeVelocity(rb));

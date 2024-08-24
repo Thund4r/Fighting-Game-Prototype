@@ -23,10 +23,12 @@ public class InputManager : MonoBehaviour
         ground.Attack.performed += ctx => playerAttack.Attack();
         ground.Dodge.performed += ctx =>
         {
-            playerMotor.Dodge();
+            playerMotor.Dodge(ground.Movement.ReadValue<Vector2>());
             playerHUD.GetComponent<PlayerHealth>().Dodge();
         };
         ground.Parry.performed += ctx => playerAttack.ParryCheck();
+        ground.Sprint.performed += ctx => playerMotor.Sprint(true);
+        ground.Sprint.canceled += ctx => playerMotor.Sprint(false);
     }
 
     // Update is called once per frame
