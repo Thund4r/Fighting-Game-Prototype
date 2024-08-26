@@ -94,7 +94,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 0f4a7db2013ea9d418d75f4412e693b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6258a1f55bda13647bb6d1ff362bfce6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HitVFX: {fileID: 2114665912191124060, guid: 8f2b555278d670c47879ecb36ecf7cf0, type: 3}
 --- !u!1 &2088407429420817847
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,7 +164,7 @@ GameObject:
   - component: {fileID: 4327366559496385416}
   m_Layer: 6
   m_Name: Main Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -363,7 +364,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraT: {fileID: 5612662027693183222}
-  speed: 6
+  walkSpeed: 5
+  sprintSpeed: 8
   perfectDodge: 0
 --- !u!114 &5797575623857871737
 MonoBehaviour:
@@ -393,7 +395,6 @@ GameObject:
   - component: {fileID: 4902852647682756551}
   - component: {fileID: 8855132927748293631}
   - component: {fileID: 2496223111077820117}
-  - component: {fileID: 4894597279930973042}
   m_Layer: 6
   m_Name: PlayerObj
   m_TagString: Player
@@ -553,15 +554,3 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4894597279930973042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6603418995019636929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f15c503987f22d40b9f2ffc64ab137a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

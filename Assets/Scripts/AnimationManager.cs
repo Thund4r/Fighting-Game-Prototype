@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimationManager : MonoBehaviour
 {
-    public PlayerAttack playerAttack;
+    [SerializeField] private PlayerAttack playerAttack;
     // Start is called before the first frame update
     public void BeginFaceEnemy()
     {

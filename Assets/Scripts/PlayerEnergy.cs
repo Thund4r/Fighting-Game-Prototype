@@ -7,7 +7,7 @@ public class PlayerEnergy : MonoBehaviour
 {
     private float maxMP = 100f;
     public float energy;
-    public Image EnergyBar;
+    [SerializeField] private Image EnergyBar;
 
 
     // Start is called before the first frame update

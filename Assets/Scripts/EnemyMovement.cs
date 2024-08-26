@@ -8,13 +8,14 @@ public class EnemyMovement : MonoBehaviour
     public GameObject agent;
     public EnemyAttack attack;
     public float aggro;
+    public int maxHP;
     public int health;
     public bool isParryable = false;
     public bool canMove = true;
     public bool isAttacking = false;
     public bool isPerfectDodge = false;
 
-    private float IFrame;
+    private float IFrame = 0.15f;
     private float timer;
     private GameObject player;
     private float distance;  
@@ -24,6 +25,7 @@ public class EnemyMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        health = maxHP;
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -76,7 +78,6 @@ public class EnemyMovement : MonoBehaviour
     public void death()
     {
         alive = false;
-        Destroy(agent, 3);
-        agent.GetComponent<Rigidbody>().freezeRotation = false;
+        Destroy(agent, 1);
     }
 }

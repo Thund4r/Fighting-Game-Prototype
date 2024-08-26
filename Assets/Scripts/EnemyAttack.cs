@@ -33,6 +33,14 @@ public class EnemyAttack : MonoBehaviour
         timer += Time.deltaTime;
     }
 
+    private void OnTriggerEnter(Collider collision)
+    {
+        if (collision.name == "PlayerObj")
+        {
+            GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().TakeDamage(10);
+        }
+    }
+
     public void Parried()
     {
         StopCoroutine(attackCheck);

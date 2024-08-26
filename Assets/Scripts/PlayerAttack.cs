@@ -96,14 +96,12 @@ public class PlayerAttack : MonoBehaviour
     public void ExSpecialCheck(GameObject playerHUD)
     {
         if (playerHUD.GetComponent<PlayerEnergy>().energy >= 40 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !mAnimator.GetBool("SpecialAttack")) {
-            Debug.Log(playerHUD.GetComponent<PlayerEnergy>().energy);
             playerHUD.GetComponent<PlayerEnergy>().energy -= 40;
             float closestDistance = Mathf.Infinity;
             Transform closestEnemy = null;
             Collider[] colliders = Physics.OverlapSphere(transform.position + transform.forward * 1f, 4f);
             foreach (Collider hit in colliders)
             {
-                Debug.Log(hit.name);
 
                 if (hit.name == "EnemyObj")
                 {
@@ -196,12 +194,16 @@ public class PlayerAttack : MonoBehaviour
         Vector3 direction = (transform.position - closestEnemy.position).normalized;
         transform.position = closestEnemy.position + direction * 1.4f;
 
+        Time.timeScale = 0.7f;
         enemyMovement.attack.Parried();
         closestEnemy.gameObject.GetComponent<Animator>().SetTrigger("Parry");
         mAnimator.SetTrigger("Parry");
+        
         yield return new WaitForSeconds(0.1f);
         enemyMovement.agent.GetComponent<Rigidbody>().AddForce(-direction * 1500f);
+    
         yield return new WaitForSeconds(0.3f);
+        Time.timeScale = 1f;
         EndFaceEnemy();
     }
 }
