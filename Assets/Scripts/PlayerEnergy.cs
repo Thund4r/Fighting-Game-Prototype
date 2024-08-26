@@ -17,7 +17,7 @@ public class PlayerEnergy : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         energy = Mathf.Clamp(energy, 0, maxMP);
         UpdateEnergy();

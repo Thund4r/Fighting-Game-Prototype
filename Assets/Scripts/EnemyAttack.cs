@@ -41,6 +41,17 @@ public class EnemyAttack : MonoBehaviour
         warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 0);
     }
 
+    public void SpecialAttacked()
+    {
+        if (enemyMovement.isAttacking) { StopCoroutine(attackCheck); }
+        enemyMovement.isParryable = false;
+        enemyMovement.isPerfectDodge = false;
+        enemyMovement.canMove = false;
+        enemyMovement.isAttacking = false;
+        warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 0);
+        this.GetComponent<MeshRenderer>().enabled = false;
+        this.GetComponent<CapsuleCollider>().enabled = false;
+    }
 
     public void triggerAttack()
     {
@@ -62,10 +73,11 @@ public class EnemyAttack : MonoBehaviour
 
     public IEnumerator RedAttackCoroutine()
     {
+        enemyMovement.isAttacking = true;
         warningLight.color = new Color(RWarnR, RWarnG, RWarnB, 1);
 
         yield return new WaitForSeconds(0.3f);
-        enemyMovement.isAttacking = true;
+        enemyMovement.isPerfectDodge = true;
         yield return new WaitForSeconds(0.2f);
         warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 0);
         this.GetComponent<MeshRenderer>().enabled = true;
@@ -73,6 +85,7 @@ public class EnemyAttack : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         this.GetComponent<MeshRenderer>().enabled = false;
         this.GetComponent<CapsuleCollider>().enabled = false;
+        enemyMovement.isPerfectDodge = false;
         enemyMovement.isAttacking = false;
         enemyMovement.canMove = true;
 
@@ -80,10 +93,11 @@ public class EnemyAttack : MonoBehaviour
 
     public IEnumerator YellowAttackCoroutine()
     {
+        enemyMovement.isAttacking = true;
         warningLight.color = new Color(YWarnR, YWarnG, YWarnB, 1);
 
         yield return new WaitForSeconds(0.3f);
-        enemyMovement.isAttacking = true;
+        enemyMovement.isPerfectDodge = true;
         yield return new WaitForSeconds(0.2f);
         enemyMovement.isParryable = false;
         warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 0);
@@ -92,6 +106,7 @@ public class EnemyAttack : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
         this.GetComponent<MeshRenderer>().enabled = false;
         this.GetComponent<CapsuleCollider>().enabled = false;
+        enemyMovement.isPerfectDodge = false;
         enemyMovement.isAttacking = false;
         enemyMovement.canMove = true;
 

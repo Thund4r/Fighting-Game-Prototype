@@ -12,6 +12,7 @@ public class EnemyMovement : MonoBehaviour
     public bool isParryable = false;
     public bool canMove = true;
     public bool isAttacking = false;
+    public bool isPerfectDodge = false;
 
     private float IFrame;
     private float timer;
@@ -49,9 +50,14 @@ public class EnemyMovement : MonoBehaviour
         {
             health -= damage;
             timer = 0;
-            Vector3 knockbackDirection = (transform.position - player.transform.position).normalized;
-            agent.GetComponent<Rigidbody>().AddForce(knockbackDirection * 800f);
-            GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(10);
+            if (canMove || isAttacking)
+            {
+                Vector3 knockbackDirection = (transform.position - player.transform.position).normalized;
+                agent.GetComponent<Rigidbody>().AddForce(knockbackDirection * 800f);
+                GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(10);
+            }
+
+            
 
 
             if (health <= 0)

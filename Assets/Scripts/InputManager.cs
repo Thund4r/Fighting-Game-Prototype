@@ -29,7 +29,7 @@ public class InputManager : MonoBehaviour
         ground.Parry.performed += ctx => playerAttack.ParryCheck();
         ground.Sprint.performed += ctx => playerMotor.Sprint(true);
         ground.Sprint.canceled += ctx => playerMotor.Sprint(false);
-        ground.ExSpecial.performed += ctx => playerAttack.ExSpecial();
+        ground.ExSpecial.performed += ctx => playerAttack.ExSpecialCheck(playerHUD);
     }
 
     // Update is called once per frame

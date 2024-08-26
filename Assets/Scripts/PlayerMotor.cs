@@ -73,7 +73,7 @@ public class PlayerMotor : MonoBehaviour
             {
                 if (hit.name == "EnemyObj")
                 {
-                    if (hit.GetComponent<EnemyMovement>().isAttacking)
+                    if (hit.GetComponent<EnemyMovement>().isPerfectDodge)
                     {
                         Time.timeScale = 0.3f;
                         perfectDodge = true;

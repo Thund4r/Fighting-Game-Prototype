@@ -55,7 +55,6 @@ public class PlayerAttack : MonoBehaviour
                 Vector3 direction = (closestEnemy.position - transform.position).normalized;
                 Quaternion lookRotation = Quaternion.LookRotation(direction);
                 this.transform.rotation = lookRotation;
-                GetComponent<InputManager>().ToggleMove(false);
             }
         }
     }
@@ -84,6 +83,7 @@ public class PlayerAttack : MonoBehaviour
     public void BeginFaceEnemy()
     {
         faceEnemy = true;
+        GetComponent<InputManager>().ToggleMove(false);
 
     }
 
@@ -93,9 +93,64 @@ public class PlayerAttack : MonoBehaviour
         GetComponent<InputManager>().ToggleMove(true);
     }
 
-    public void ExSpecial()
+    public void ExSpecialCheck(GameObject playerHUD)
     {
+        if (playerHUD.GetComponent<PlayerEnergy>().energy >= 40 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !mAnimator.GetBool("SpecialAttack")) {
+            Debug.Log(playerHUD.GetComponent<PlayerEnergy>().energy);
+            playerHUD.GetComponent<PlayerEnergy>().energy -= 40;
+            float closestDistance = Mathf.Infinity;
+            Transform closestEnemy = null;
+            Collider[] colliders = Physics.OverlapSphere(transform.position + transform.forward * 1f, 4f);
+            foreach (Collider hit in colliders)
+            {
+                Debug.Log(hit.name);
 
+                if (hit.name == "EnemyObj")
+                {
+                    Vector3 distance = hit.transform.position - transform.position;
+                    float distanceSq = distance.sqrMagnitude;
+                    if (distanceSq < closestDistance)
+                    {
+                        closestDistance = distanceSq;
+                        closestEnemy = hit.transform;
+                    }
+                }
+            }
+            if (closestEnemy != null)
+            {
+                FaceEnemy(closestEnemy);
+            
+            }
+            StartCoroutine(ExSpecialAnimation(closestEnemy));    
+        }
+    }
+
+    private IEnumerator ExSpecialAnimation(Transform closestEnemy)
+    {
+        if (closestEnemy != null)
+        {
+            GetComponent<InputManager>().ToggleMove(false);
+            EnemyMovement enemyMovement = closestEnemy.gameObject.GetComponent<EnemyMovement>();
+            Vector3 direction = (transform.position - closestEnemy.position).normalized;
+            transform.position = closestEnemy.position + direction * 3.6f;
+            enemyMovement.canMove = false;
+            enemyMovement.attack.SpecialAttacked();
+            
+            closestEnemy.gameObject.GetComponent<Animator>().SetTrigger("SpecialAttack");
+            mAnimator.SetTrigger("SpecialAttack");
+            yield return new WaitForSeconds(1.54f);
+            GetComponent<InputManager>().ToggleMove(true);
+            enemyMovement.canMove = true;
+        }
+        else 
+        {
+            GetComponent<InputManager>().ToggleMove(false);
+            mAnimator.SetTrigger("SpecialAttack");
+            yield return new WaitForSeconds(1.54f);
+            GetComponent<InputManager>().ToggleMove(true);
+        }
+        
+        EndFaceEnemy();
     }
 
     public void ParryCheck()
