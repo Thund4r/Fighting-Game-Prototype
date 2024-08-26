@@ -93,6 +93,11 @@ public class PlayerAttack : MonoBehaviour
         GetComponent<InputManager>().ToggleMove(true);
     }
 
+    public void ExSpecial()
+    {
+
+    }
+
     public void ParryCheck()
     {
         float closestDistance = Mathf.Infinity;

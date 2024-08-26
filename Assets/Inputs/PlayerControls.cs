@@ -80,6 +80,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ex-Special"",
+                    ""type"": ""Button"",
+                    ""id"": ""e15bb2f0-0ac0-44cb-ad74-f1bb8d6cd3bd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -192,6 +201,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""90ad8b63-e440-4cbc-8573-92b1fd59a7a6"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ex-Special"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -206,6 +226,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Ground_Dodge = m_Ground.FindAction("Dodge", throwIfNotFound: true);
         m_Ground_Parry = m_Ground.FindAction("Parry", throwIfNotFound: true);
         m_Ground_Sprint = m_Ground.FindAction("Sprint", throwIfNotFound: true);
+        m_Ground_ExSpecial = m_Ground.FindAction("Ex-Special", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +294,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Ground_Dodge;
     private readonly InputAction m_Ground_Parry;
     private readonly InputAction m_Ground_Sprint;
+    private readonly InputAction m_Ground_ExSpecial;
     public struct GroundActions
     {
         private @PlayerControls m_Wrapper;
@@ -283,6 +305,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Dodge => m_Wrapper.m_Ground_Dodge;
         public InputAction @Parry => m_Wrapper.m_Ground_Parry;
         public InputAction @Sprint => m_Wrapper.m_Ground_Sprint;
+        public InputAction @ExSpecial => m_Wrapper.m_Ground_ExSpecial;
         public InputActionMap Get() { return m_Wrapper.m_Ground; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -310,6 +333,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @ExSpecial.started += instance.OnExSpecial;
+            @ExSpecial.performed += instance.OnExSpecial;
+            @ExSpecial.canceled += instance.OnExSpecial;
         }
 
         private void UnregisterCallbacks(IGroundActions instance)
@@ -332,6 +358,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @ExSpecial.started -= instance.OnExSpecial;
+            @ExSpecial.performed -= instance.OnExSpecial;
+            @ExSpecial.canceled -= instance.OnExSpecial;
         }
 
         public void RemoveCallbacks(IGroundActions instance)
@@ -357,5 +386,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnDodge(InputAction.CallbackContext context);
         void OnParry(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnExSpecial(InputAction.CallbackContext context);
     }
 }

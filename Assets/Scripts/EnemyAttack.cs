@@ -41,6 +41,7 @@ public class EnemyAttack : MonoBehaviour
         warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 0);
     }
 
+
     public void triggerAttack()
     {
         if (timer > attackCD)
