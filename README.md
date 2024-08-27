@@ -15,7 +15,8 @@ My attempt at recreating Zenless Zone Zero combat mechanics.
 * Enemy healthbar                           (26/8/2024)
 
 # To be added -
-
+* Overheat mechanic (Not from ZZZ)
+* Enemy hitstun
 * Different enemy attacks
 * Stun & Dmg multiplier
 * Chain Attack (Single char for now)
