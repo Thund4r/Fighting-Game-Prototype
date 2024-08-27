@@ -5,7 +5,12 @@ using UnityEngine;
 public class AnimationManager : MonoBehaviour
 {
     [SerializeField] private PlayerAttack playerAttack;
+    private PlayerOverheat playerHUD;
     // Start is called before the first frame update
+    private void Start()
+    {
+        playerHUD = GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerOverheat>();
+    }
     public void BeginFaceEnemy()
     {
         playerAttack.BeginFaceEnemy();
@@ -14,5 +19,10 @@ public class AnimationManager : MonoBehaviour
     public void EndFaceEnemy()
     {
         playerAttack.EndFaceEnemy();
+    }
+
+    public void GainOverheat()
+    {
+        playerHUD.GainOverheat();
     }
 }

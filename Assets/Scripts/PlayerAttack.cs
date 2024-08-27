@@ -7,11 +7,15 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class PlayerAttack : MonoBehaviour
 {
     private bool faceEnemy;
+    private bool isExSpecial = false;
+    public bool holdAttacking = false;
     public Animator mAnimator;
     private int noOfClicks = 0;
+    public float energyCost;
+    public float overheatCost;
 
     float lastClickedTime = 0f;
-    float maxComboDelay = 0.5f;
+    float maxComboDelay = 0.3f;
 
     // Start is called before the first frame update
     void Start()
@@ -80,6 +84,23 @@ public class PlayerAttack : MonoBehaviour
         
     }
 
+    public void HoldAttack(bool value)
+    {
+
+        PlayerOverheat playerOverheat = GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerOverheat>();
+        if (playerOverheat.overheat + playerOverheat.overheatRate <= playerOverheat.maxOverheat)
+        {
+            holdAttacking = value;
+            mAnimator.SetBool("HoldAttack", value);
+        }
+        else
+        {
+            holdAttacking = false;
+            mAnimator.SetBool("HoldAttack", false);
+        }
+        
+    }
+
     public void BeginFaceEnemy()
     {
         faceEnemy = true;
@@ -95,8 +116,10 @@ public class PlayerAttack : MonoBehaviour
 
     public void ExSpecialCheck(GameObject playerHUD)
     {
-        if (playerHUD.GetComponent<PlayerEnergy>().energy >= 40 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !mAnimator.GetBool("SpecialAttack")) {
-            playerHUD.GetComponent<PlayerEnergy>().energy -= 40;
+
+        if (playerHUD.GetComponent<PlayerEnergy>().energy >= energyCost && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !isExSpecial) {
+            isExSpecial = true;
+            playerHUD.GetComponent<PlayerEnergy>().LoseEnergy(energyCost);
             float closestDistance = Mathf.Infinity;
             Transform closestEnemy = null;
             Collider[] colliders = Physics.OverlapSphere(transform.position + transform.forward * 1f, 4f);
@@ -139,6 +162,7 @@ public class PlayerAttack : MonoBehaviour
             yield return new WaitForSeconds(1.54f);
             GetComponent<InputManager>().ToggleMove(true);
             enemyMovement.canMove = true;
+            isExSpecial = false;
         }
         else 
         {
@@ -146,6 +170,7 @@ public class PlayerAttack : MonoBehaviour
             mAnimator.SetTrigger("SpecialAttack");
             yield return new WaitForSeconds(1.54f);
             GetComponent<InputManager>().ToggleMove(true);
+            isExSpecial = false;
         }
         
         EndFaceEnemy();

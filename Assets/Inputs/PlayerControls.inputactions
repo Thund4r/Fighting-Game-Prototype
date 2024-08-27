@@ -33,6 +33,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Hold Attack",
+                    "type": "Button",
+                    "id": "0c7e987d-ef22-4a65-8518-773f622ff93f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Dodge",
                     "type": "Button",
                     "id": "5ed593c9-bd0c-4c80-bfa3-62a2d29858f2",
@@ -42,18 +51,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Parry",
+                    "name": "Sprint",
                     "type": "Button",
-                    "id": "171dbf79-11bb-4e0e-9797-a2c51fbc0676",
+                    "id": "1006a274-282e-45be-a01d-b1c68032edd6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Sprint",
+                    "name": "Parry",
                     "type": "Button",
-                    "id": "1006a274-282e-45be-a01d-b1c68032edd6",
+                    "id": "171dbf79-11bb-4e0e-9797-a2c51fbc0676",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -140,7 +149,7 @@
                     "name": "",
                     "id": "56fee7fd-e388-473c-ac46-93f7036522f0",
                     "path": "<Mouse>/leftButton",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "processors": "",
                     "groups": "",
                     "action": "Attack",
@@ -171,6 +180,17 @@
                 },
                 {
                     "name": "",
+                    "id": "90ad8b63-e440-4cbc-8573-92b1fd59a7a6",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ex-Special",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c5b86f7b-3954-44d8-b275-196debcb2808",
                     "path": "<Keyboard>/shift",
                     "interactions": "Hold(duration=0.2)",
@@ -182,12 +202,12 @@
                 },
                 {
                     "name": "",
-                    "id": "90ad8b63-e440-4cbc-8573-92b1fd59a7a6",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
+                    "id": "76612ce7-d28b-4c00-9610-d3a0be32da8b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Hold(duration=0.2)",
                     "processors": "",
                     "groups": "",
-                    "action": "Ex-Special",
+                    "action": "Hold Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

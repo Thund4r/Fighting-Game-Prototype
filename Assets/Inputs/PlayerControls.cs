@@ -55,6 +55,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Hold Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""0c7e987d-ef22-4a65-8518-773f622ff93f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Dodge"",
                     ""type"": ""Button"",
                     ""id"": ""5ed593c9-bd0c-4c80-bfa3-62a2d29858f2"",
@@ -64,18 +73,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Parry"",
+                    ""name"": ""Sprint"",
                     ""type"": ""Button"",
-                    ""id"": ""171dbf79-11bb-4e0e-9797-a2c51fbc0676"",
+                    ""id"": ""1006a274-282e-45be-a01d-b1c68032edd6"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Sprint"",
+                    ""name"": ""Parry"",
                     ""type"": ""Button"",
-                    ""id"": ""1006a274-282e-45be-a01d-b1c68032edd6"",
+                    ""id"": ""171dbf79-11bb-4e0e-9797-a2c51fbc0676"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -162,7 +171,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""56fee7fd-e388-473c-ac46-93f7036522f0"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Tap"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
@@ -193,6 +202,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""90ad8b63-e440-4cbc-8573-92b1fd59a7a6"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Ex-Special"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""c5b86f7b-3954-44d8-b275-196debcb2808"",
                     ""path"": ""<Keyboard>/shift"",
                     ""interactions"": ""Hold(duration=0.2)"",
@@ -204,12 +224,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""90ad8b63-e440-4cbc-8573-92b1fd59a7a6"",
-                    ""path"": ""<Keyboard>/e"",
-                    ""interactions"": """",
+                    ""id"": ""76612ce7-d28b-4c00-9610-d3a0be32da8b"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Hold(duration=0.2)"",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Ex-Special"",
+                    ""action"": ""Hold Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -223,9 +243,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Ground_Movement = m_Ground.FindAction("Movement", throwIfNotFound: true);
         m_Ground_Look = m_Ground.FindAction("Look", throwIfNotFound: true);
         m_Ground_Attack = m_Ground.FindAction("Attack", throwIfNotFound: true);
+        m_Ground_HoldAttack = m_Ground.FindAction("Hold Attack", throwIfNotFound: true);
         m_Ground_Dodge = m_Ground.FindAction("Dodge", throwIfNotFound: true);
-        m_Ground_Parry = m_Ground.FindAction("Parry", throwIfNotFound: true);
         m_Ground_Sprint = m_Ground.FindAction("Sprint", throwIfNotFound: true);
+        m_Ground_Parry = m_Ground.FindAction("Parry", throwIfNotFound: true);
         m_Ground_ExSpecial = m_Ground.FindAction("Ex-Special", throwIfNotFound: true);
     }
 
@@ -291,9 +312,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Ground_Movement;
     private readonly InputAction m_Ground_Look;
     private readonly InputAction m_Ground_Attack;
+    private readonly InputAction m_Ground_HoldAttack;
     private readonly InputAction m_Ground_Dodge;
-    private readonly InputAction m_Ground_Parry;
     private readonly InputAction m_Ground_Sprint;
+    private readonly InputAction m_Ground_Parry;
     private readonly InputAction m_Ground_ExSpecial;
     public struct GroundActions
     {
@@ -302,9 +324,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Ground_Movement;
         public InputAction @Look => m_Wrapper.m_Ground_Look;
         public InputAction @Attack => m_Wrapper.m_Ground_Attack;
+        public InputAction @HoldAttack => m_Wrapper.m_Ground_HoldAttack;
         public InputAction @Dodge => m_Wrapper.m_Ground_Dodge;
-        public InputAction @Parry => m_Wrapper.m_Ground_Parry;
         public InputAction @Sprint => m_Wrapper.m_Ground_Sprint;
+        public InputAction @Parry => m_Wrapper.m_Ground_Parry;
         public InputAction @ExSpecial => m_Wrapper.m_Ground_ExSpecial;
         public InputActionMap Get() { return m_Wrapper.m_Ground; }
         public void Enable() { Get().Enable(); }
@@ -324,15 +347,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @HoldAttack.started += instance.OnHoldAttack;
+            @HoldAttack.performed += instance.OnHoldAttack;
+            @HoldAttack.canceled += instance.OnHoldAttack;
             @Dodge.started += instance.OnDodge;
             @Dodge.performed += instance.OnDodge;
             @Dodge.canceled += instance.OnDodge;
-            @Parry.started += instance.OnParry;
-            @Parry.performed += instance.OnParry;
-            @Parry.canceled += instance.OnParry;
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @Parry.started += instance.OnParry;
+            @Parry.performed += instance.OnParry;
+            @Parry.canceled += instance.OnParry;
             @ExSpecial.started += instance.OnExSpecial;
             @ExSpecial.performed += instance.OnExSpecial;
             @ExSpecial.canceled += instance.OnExSpecial;
@@ -349,15 +375,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @HoldAttack.started -= instance.OnHoldAttack;
+            @HoldAttack.performed -= instance.OnHoldAttack;
+            @HoldAttack.canceled -= instance.OnHoldAttack;
             @Dodge.started -= instance.OnDodge;
             @Dodge.performed -= instance.OnDodge;
             @Dodge.canceled -= instance.OnDodge;
-            @Parry.started -= instance.OnParry;
-            @Parry.performed -= instance.OnParry;
-            @Parry.canceled -= instance.OnParry;
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @Parry.started -= instance.OnParry;
+            @Parry.performed -= instance.OnParry;
+            @Parry.canceled -= instance.OnParry;
             @ExSpecial.started -= instance.OnExSpecial;
             @ExSpecial.performed -= instance.OnExSpecial;
             @ExSpecial.canceled -= instance.OnExSpecial;
@@ -383,9 +412,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
+        void OnHoldAttack(InputAction.CallbackContext context);
         void OnDodge(InputAction.CallbackContext context);
-        void OnParry(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnParry(InputAction.CallbackContext context);
         void OnExSpecial(InputAction.CallbackContext context);
     }
 }

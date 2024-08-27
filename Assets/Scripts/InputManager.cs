@@ -21,6 +21,8 @@ public class InputManager : MonoBehaviour
         playerMotor = GetComponent<PlayerMotor>();
         playerAttack = GetComponent<PlayerAttack>();
         ground.Attack.performed += ctx => playerAttack.Attack();
+        ground.HoldAttack.performed += ctx => playerAttack.HoldAttack(true);
+        ground.HoldAttack.canceled += ctx => playerAttack.HoldAttack(false);
         ground.Dodge.performed += ctx =>
         {
             playerMotor.Dodge(ground.Movement.ReadValue<Vector2>());
@@ -30,6 +32,7 @@ public class InputManager : MonoBehaviour
         ground.Sprint.performed += ctx => playerMotor.Sprint(true);
         ground.Sprint.canceled += ctx => playerMotor.Sprint(false);
         ground.ExSpecial.performed += ctx => playerAttack.ExSpecialCheck(playerHUD);
+
     }
 
     // Update is called once per frame
