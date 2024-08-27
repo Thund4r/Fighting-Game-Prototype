@@ -10,7 +10,7 @@ public class EnemyAttack : MonoBehaviour
     public EnemyMovement enemyMovement;
     public float attackCD;
     private Coroutine attackCheck;
-    private float timer;
+    public float timer;
 
     private float YWarnR = 255f;
     private float YWarnG = 216f;

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -8,8 +9,8 @@ public class EnemyMovement : MonoBehaviour
     public GameObject agent;
     public EnemyAttack attack;
     public float aggro;
-    public int maxHP;
-    public int health;
+    public float maxHP;
+    public float health;
     public bool isParryable = false;
     public bool canMove = true;
     public bool isAttacking = false;
@@ -52,6 +53,7 @@ public class EnemyMovement : MonoBehaviour
         health -= damage;
         if (canMove || isAttacking)
         {
+            this.attack.timer -= this.attack.timer * (health/maxHP);
             Vector3 knockbackDirection = (transform.position - player.transform.position).normalized;
             agent.GetComponent<Rigidbody>().AddForce(knockbackDirection * 500f);
             GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(5);
