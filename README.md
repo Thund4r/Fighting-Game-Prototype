@@ -30,3 +30,7 @@ My attempt at recreating Zenless Zone Zero combat mechanics.
 Day 5 (26/8/2024): 
 
 ![](https://github.com/Thund4r/Fighting-Game-Prototype/blob/main/PrototypeProgress1.gif)
+
+Day 7 (28/8/2024):
+
+![](https://github.com/Thund4r/Fighting-Game-Prototype/blob/main/PrototypeProgress2.gif)
