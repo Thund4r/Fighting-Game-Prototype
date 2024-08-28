@@ -11,10 +11,14 @@ public class EnemyMovement : MonoBehaviour
     public float aggro;
     public float maxHP;
     public float health;
+    public float maxDaze;
+    public float daze;
+    public float stunDuration;
     public bool isParryable = false;
     public bool canMove = true;
     public bool isAttacking = false;
     public bool isPerfectDodge = false;
+    public bool isStunned = false;
 
 
     private float timer;
@@ -34,7 +38,7 @@ public class EnemyMovement : MonoBehaviour
     void LateUpdate()
     {
         timer += Time.deltaTime;
-        if (alive && canMove)
+        if (alive && canMove && !isStunned)
         {
             agent.transform.LookAt(player.transform);
             distance = (player.transform.position - transform.position).sqrMagnitude;
@@ -46,6 +50,33 @@ public class EnemyMovement : MonoBehaviour
                 timer = 0;
             }
         }
+        else if (isStunned)
+        {
+            StunUpdate();
+        }
+    }
+
+    public void TakeDaze(int value)
+    {
+        if (!isStunned)
+        {
+            daze = Mathf.Clamp(daze + value, 0, maxDaze);
+        }
+        
+        if (daze == maxDaze)
+        {
+            isStunned = true;
+        }
+    }
+
+    public void StunUpdate()
+    {
+        daze = Mathf.Clamp(daze - ((Time.deltaTime / stunDuration) * maxDaze), 0, maxDaze);
+        if (daze == 0)
+        {
+            isStunned = false;
+        }
+        
     }
 
     public void TakeDamage(int damage)
@@ -53,9 +84,9 @@ public class EnemyMovement : MonoBehaviour
         health -= damage;
         if (canMove || isAttacking)
         {
-            this.attack.timer -= this.attack.timer * (health/maxHP);
+            this.attack.timer = Mathf.Clamp(this.attack.timer - (this.attack.timer * (health/(maxHP*8)) + 0.07f), 0, 1000);
             Vector3 knockbackDirection = (transform.position - player.transform.position).normalized;
-            agent.GetComponent<Rigidbody>().AddForce(knockbackDirection * 500f);
+            agent.GetComponent<Rigidbody>().AddForce(knockbackDirection * 300f);
             GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(5);
         }
 

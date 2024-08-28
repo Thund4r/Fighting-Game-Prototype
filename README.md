@@ -13,10 +13,10 @@ My attempt at recreating Zenless Zone Zero combat mechanics.
 * Sprint				                          	(24/8/2024)
 * Energy-consuming attacks (EX-Specials)    (26/8/2024)
 * Enemy healthbar                           (26/8/2024)
+* Overheat mechanic (Not from ZZZ)	    (27/8/2024)
+* Enemy hitstun				    (27/8/2024)
 
 # To be added -
-* Overheat mechanic (Not from ZZZ)
-* Enemy hitstun
 * Different enemy attacks
 * Stun & Dmg multiplier
 * Chain Attack (Single char for now)

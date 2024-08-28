@@ -105,7 +105,6 @@ public class PlayerAttack : MonoBehaviour
     {
         faceEnemy = true;
         GetComponent<InputManager>().ToggleMove(false);
-
     }
 
     public void EndFaceEnemy()
@@ -221,6 +220,7 @@ public class PlayerAttack : MonoBehaviour
 
         Time.timeScale = 0.7f;
         enemyMovement.attack.Parried();
+        enemyMovement.TakeDaze(25);
         closestEnemy.gameObject.GetComponent<Animator>().SetTrigger("Parry");
         mAnimator.SetTrigger("Parry");
         

@@ -67,7 +67,7 @@ public class EnemyAttack : MonoBehaviour
         {
             enemyMovement.canMove = false;
             timer = 0;
-            if (Random.Range(0f, 2f) >= 0.5)
+            if (Random.Range(0f, 2f) >= 0.4f)
             {
                 enemyMovement.isParryable = true;
                 attackCheck = StartCoroutine(YellowAttackCoroutine());
