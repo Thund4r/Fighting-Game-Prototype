@@ -10,6 +10,7 @@ public class EnemyAttack : MonoBehaviour
     public EnemyMovement enemyMovement;
     public float attackCD;
     private Coroutine attackCheck;
+    private PlayerParry playerParry;
     public float timer;
 
     private float YWarnR = 255f;
@@ -24,6 +25,7 @@ public class EnemyAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerParry = GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerParry>();
         warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 0);
     }
 
@@ -67,7 +69,7 @@ public class EnemyAttack : MonoBehaviour
         {
             enemyMovement.canMove = false;
             timer = 0;
-            if (Random.Range(0f, 2f) >= 0.4f)
+            if (playerParry.parryCount > 0)
             {
                 enemyMovement.isParryable = true;
                 attackCheck = StartCoroutine(YellowAttackCoroutine());

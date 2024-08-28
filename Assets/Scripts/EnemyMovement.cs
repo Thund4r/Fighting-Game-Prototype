@@ -79,6 +79,7 @@ public class EnemyMovement : MonoBehaviour
         if (daze == 0)
         {
             isStunned = false;
+            isChained = true;
             dmgMult = 1f;
         }
         

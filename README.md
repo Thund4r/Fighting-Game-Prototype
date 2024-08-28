@@ -16,11 +16,11 @@ My attempt at recreating Zenless Zone Zero combat mechanics.
 * Overheat mechanic (Not from ZZZ)	    (27/8/2024)
 * Enemy hitstun				    (27/8/2024)
 * Stun & Dmg multiplier                     (28/8/2024)
+* Chain Attack (Single char for now)        (28/8/2024)
+* Parry resource			    (28/8/2024)
 
 # To be added -
 * Different enemy attacks
-* Chain Attack (Single char for now)
-* Parry resource
 * Hit-reg animations (SFX)
 * Ranged Enemy attacks
 * More dynamic animations
