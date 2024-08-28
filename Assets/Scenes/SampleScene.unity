@@ -477,6 +477,17 @@ RectTransform:
   m_AnchoredPosition: {x: 189, y: 614}
   m_SizeDelta: {x: 452, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &302832926 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8666791256506788617, guid: 84011cc3b7934b9479d3a16a495ee7f5, type: 3}
+  m_PrefabInstance: {fileID: 2674699989499494982}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6258a1f55bda13647bb6d1ff362bfce6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1553,7 +1564,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1342777910}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.48562506, y: 0, z: 0, w: 0.8741672}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2372,6 +2383,10 @@ PrefabInstance:
       propertyPath: overheatCost
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5797575623857871737, guid: 84011cc3b7934b9479d3a16a495ee7f5, type: 3}
+      propertyPath: weaponCollision
+      value: 
+      objectReference: {fileID: 302832926}
     - target: {fileID: 8666791256506788617, guid: 84011cc3b7934b9479d3a16a495ee7f5, type: 3}
       propertyPath: mAnimator
       value: 
@@ -2429,6 +2444,10 @@ PrefabInstance:
     - target: {fileID: 3374789772784926870, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
       propertyPath: maxDaze
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374789772784926870, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
+      propertyPath: isChained
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3374789772784926870, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
       propertyPath: stunDuration

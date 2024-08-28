@@ -196,17 +196,18 @@ public class PlayerAttack : MonoBehaviour
 
     public IEnumerator TriggerChainAttack()
     {
+
         GetComponent<InputManager>().DisableChainAttack();
-        Time.timeScale = 1f;
-        GetComponent<InputManager>().ToggleMove(false);
+        playerParry.GainParry(3);
+        Time.timeScale = 0.5f;
         EnemyMovement enemyMovement = chainEnemy.gameObject.GetComponent<EnemyMovement>();
         Vector3 direction = (transform.position - chainEnemy.transform.position).normalized;
         transform.position = chainEnemy.transform.position + direction * 3.6f;
 
 
         mAnimator.SetTrigger("ChainAttack");
-        yield return new WaitForSeconds(1.54f);
-        GetComponent<InputManager>().ToggleMove(true);
+        yield return new WaitForSeconds(0.6f);
+        Time.timeScale = 1f;
         
 
     }
@@ -259,7 +260,7 @@ public class PlayerAttack : MonoBehaviour
         Time.timeScale = 0.7f;
         playerParry.LoseParry();
         enemyMovement.attack.Parried();
-        enemyMovement.TakeDaze(25);
+        enemyMovement.TakeDaze(35);
         closestEnemy.gameObject.GetComponent<Animator>().SetTrigger("Parry");
         mAnimator.SetTrigger("Parry");
         

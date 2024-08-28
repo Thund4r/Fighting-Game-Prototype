@@ -17,9 +17,15 @@ public class WeaponCollision : MonoBehaviour
 
             Destroy(HitVFXObj, 0.5f);
 
-            if (comboFinisher && collision.GetComponent<EnemyMovement>().isStunned)
+            if (comboFinisher && !collision.GetComponent<EnemyMovement>().isChained)
             {
                 GameObject.FindGameObjectWithTag("PlayerController").GetComponent<PlayerAttack>().ChainAttack(collision.gameObject);
+            }
+
+            if (mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Chain Attack"))
+            {
+                Debug.Log("Chained");
+                collision.GetComponent<EnemyMovement>().isChained = true;
             }
             
         }

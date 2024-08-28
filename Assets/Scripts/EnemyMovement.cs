@@ -20,6 +20,7 @@ public class EnemyMovement : MonoBehaviour
     public bool isAttacking = false;
     public bool isPerfectDodge = false;
     public bool isStunned = false;
+    public bool isChained = true;
 
 
     private float timer;
@@ -67,6 +68,7 @@ public class EnemyMovement : MonoBehaviour
         if (daze == maxDaze)
         {
             isStunned = true;
+            isChained = false;
             dmgMult = 2f;
         }
     }
