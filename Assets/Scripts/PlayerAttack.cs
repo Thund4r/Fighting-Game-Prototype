@@ -13,6 +13,7 @@ public class PlayerAttack : MonoBehaviour
     private int noOfClicks = 0;
     public float energyCost;
     public float overheatCost;
+    private PlayerParry playerParry;
 
     float lastClickedTime = 0f;
     float maxComboDelay = 0.3f;
@@ -21,6 +22,7 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         mAnimator = mAnimator.GetComponent<Animator>();
+        playerParry = GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerParry>();
     }
 
     // Update is called once per frame
@@ -177,30 +179,33 @@ public class PlayerAttack : MonoBehaviour
 
     public void ParryCheck()
     {
-        float closestDistance = Mathf.Infinity;
-        Transform closestEnemy = null;
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 10f);
-        foreach (Collider hit in colliders)
-        {
-
-            if (hit.name == "EnemyObj")
+        if (playerParry.parryCount != 0) 
+        { 
+            float closestDistance = Mathf.Infinity;
+            Transform closestEnemy = null;
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 10f);
+            foreach (Collider hit in colliders)
             {
-                if (hit.GetComponent<EnemyMovement>().isParryable)
+
+                if (hit.name == "EnemyObj")
                 {
-                    Vector3 distance = hit.transform.position - transform.position;
-                    float distanceSq = distance.sqrMagnitude;
-                    if (distanceSq < closestDistance)
+                    if (hit.GetComponent<EnemyMovement>().isParryable)
                     {
-                        closestDistance = distanceSq;
-                        closestEnemy = hit.transform;
+                        Vector3 distance = hit.transform.position - transform.position;
+                        float distanceSq = distance.sqrMagnitude;
+                        if (distanceSq < closestDistance)
+                        {
+                            closestDistance = distanceSq;
+                            closestEnemy = hit.transform;
+                        }
                     }
                 }
             }
-        }
-        if (closestEnemy != null)
-        {
-            FaceEnemy(closestEnemy);
-            StartCoroutine(ParryAnimation(closestEnemy));
+            if (closestEnemy != null)
+            {
+                FaceEnemy(closestEnemy);
+                StartCoroutine(ParryAnimation(closestEnemy));
+            }
         }
     }
 
@@ -219,6 +224,7 @@ public class PlayerAttack : MonoBehaviour
         transform.position = closestEnemy.position + direction * 1.4f;
 
         Time.timeScale = 0.7f;
+        playerParry.LoseParry();
         enemyMovement.attack.Parried();
         enemyMovement.TakeDaze(25);
         closestEnemy.gameObject.GetComponent<Animator>().SetTrigger("Parry");
