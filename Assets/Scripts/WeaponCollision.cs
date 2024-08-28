@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class WeaponCollision : MonoBehaviour
 {
-    public GameObject HitVFX;
+    [SerializeField] private GameObject HitVFX;
+    [SerializeField] private Animator mAnimator;
+    public bool comboFinisher = false;
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.name == "EnemyObj")
@@ -14,6 +16,12 @@ public class WeaponCollision : MonoBehaviour
             GameObject HitVFXObj = Instantiate(HitVFX, collision.ClosestPoint(transform.position), Quaternion.identity);
 
             Destroy(HitVFXObj, 0.5f);
+
+            if (comboFinisher && collision.GetComponent<EnemyMovement>().isStunned)
+            {
+                GameObject.FindGameObjectWithTag("PlayerController").GetComponent<PlayerAttack>().ChainAttack(collision.gameObject);
+            }
+            
         }
     }
 }

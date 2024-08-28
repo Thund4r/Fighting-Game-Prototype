@@ -7,6 +7,7 @@ public class InputManager : MonoBehaviour
 {
     private PlayerControls playerInput;
     private PlayerControls.GroundActions ground;
+    private PlayerControls.ChainAttackActions chain;
 
     private PlayerMotor playerMotor;
     private PlayerAttack playerAttack;
@@ -18,6 +19,7 @@ public class InputManager : MonoBehaviour
         playerHUD = GameObject.FindGameObjectWithTag("PlayerHUD");
         playerInput = new PlayerControls();
         ground = playerInput.Ground;
+        chain = playerInput.ChainAttack;
         playerMotor = GetComponent<PlayerMotor>();
         playerAttack = GetComponent<PlayerAttack>();
         ground.Attack.performed += ctx => playerAttack.Attack();
@@ -32,6 +34,7 @@ public class InputManager : MonoBehaviour
         ground.Sprint.performed += ctx => playerMotor.Sprint(true);
         ground.Sprint.canceled += ctx => playerMotor.Sprint(false);
         ground.ExSpecial.performed += ctx => playerAttack.ExSpecialCheck(playerHUD);
+        chain.Character1.performed += ctx => StartCoroutine(playerAttack.TriggerChainAttack());
 
     }
 
@@ -65,10 +68,22 @@ public class InputManager : MonoBehaviour
     public void ToggleMove(bool value)
     {
         canMove = value;
-        //GameObject.FindGameObjectWithTag("MainCamera").GetComponent<ThirdPersonCam>().ToggleTurn(value);
+        
         if (!canMove){    
             playerMotor.ProcessMove(Vector2.zero);
         }
+    }
+
+    public void EnableChainAttack()
+    {
+        playerInput.ChainAttack.Enable();
+        playerInput.Ground.Disable();
+    }
+
+    public void DisableChainAttack()
+    {
+        playerInput.ChainAttack.Disable();
+        playerInput.Ground.Enable();
     }
 
 }

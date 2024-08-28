@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerAttack : MonoBehaviour
@@ -13,7 +14,10 @@ public class PlayerAttack : MonoBehaviour
     private int noOfClicks = 0;
     public float energyCost;
     public float overheatCost;
+    private float timer;
     private PlayerParry playerParry;
+    public WeaponCollision weaponCollision;
+    private GameObject chainEnemy;
 
     float lastClickedTime = 0f;
     float maxComboDelay = 0.3f;
@@ -32,6 +36,7 @@ public class PlayerAttack : MonoBehaviour
         {
             noOfClicks = 0;
         }
+        timer -= Time.deltaTime;
     }
 
     void LateUpdate()
@@ -67,24 +72,28 @@ public class PlayerAttack : MonoBehaviour
 
     public void Attack()
     {
-        lastClickedTime = Time.time;
-        noOfClicks++;
-        noOfClicks = Mathf.Clamp(noOfClicks, 0, 3);
-        if (noOfClicks == 1)
-        {
-            mAnimator.SetTrigger("Attack1");
+        if (timer < 0) 
+        { 
+            lastClickedTime = Time.time;
+            noOfClicks++;
+            noOfClicks = Mathf.Clamp(noOfClicks, 0, 3);
+            if (noOfClicks == 1)
+            {
+                mAnimator.SetTrigger("Attack1");
+            }
+            if (noOfClicks >= 2 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack 1"))
+            {
+                mAnimator.SetTrigger("Attack2");
+            }
+            if (noOfClicks >= 3 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack 2"))
+            {
+                mAnimator.SetTrigger("Attack3");
+                noOfClicks = 0;
+                timer = 0.5f;
+            }
         }
-        if (noOfClicks >= 2 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack 1"))
-        {
-            mAnimator.SetTrigger("Attack2");
-        }
-        if (noOfClicks >= 3 && mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack 2"))
-        {
-            mAnimator.SetTrigger("Attack3");
-            noOfClicks = 0;
-        }
-        
-    }
+
+}
 
     public void HoldAttack(bool value)
     {
@@ -177,6 +186,31 @@ public class PlayerAttack : MonoBehaviour
         EndFaceEnemy();
     }
 
+    public void ChainAttack(GameObject enemy)
+    {
+        chainEnemy = enemy;
+        GetComponent<InputManager>().EnableChainAttack();
+
+        Time.timeScale = 0.01f;
+    }
+
+    public IEnumerator TriggerChainAttack()
+    {
+        GetComponent<InputManager>().DisableChainAttack();
+        Time.timeScale = 1f;
+        GetComponent<InputManager>().ToggleMove(false);
+        EnemyMovement enemyMovement = chainEnemy.gameObject.GetComponent<EnemyMovement>();
+        Vector3 direction = (transform.position - chainEnemy.transform.position).normalized;
+        transform.position = chainEnemy.transform.position + direction * 3.6f;
+
+
+        mAnimator.SetTrigger("ChainAttack");
+        yield return new WaitForSeconds(1.54f);
+        GetComponent<InputManager>().ToggleMove(true);
+        
+
+    }
+
     public void ParryCheck()
     {
         if (playerParry.parryCount != 0) 
@@ -222,7 +256,6 @@ public class PlayerAttack : MonoBehaviour
         EnemyMovement enemyMovement = closestEnemy.gameObject.GetComponent<EnemyMovement>();
         Vector3 direction = (transform.position - closestEnemy.position).normalized;
         transform.position = closestEnemy.position + direction * 1.4f;
-
         Time.timeScale = 0.7f;
         playerParry.LoseParry();
         enemyMovement.attack.Parried();
@@ -232,9 +265,14 @@ public class PlayerAttack : MonoBehaviour
         
         yield return new WaitForSeconds(0.1f);
         enemyMovement.agent.GetComponent<Rigidbody>().AddForce(-direction * 1500f);
-    
         yield return new WaitForSeconds(0.3f);
+
         Time.timeScale = 1f;
         EndFaceEnemy();
+    }
+
+    public void SetComboFinisher(bool value)
+    {
+        weaponCollision.comboFinisher = value;
     }
 }

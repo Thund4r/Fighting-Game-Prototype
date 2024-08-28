@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,5 +43,10 @@ public class ThirdPersonCam : MonoBehaviour
     public void ToggleTurn(bool value)
     {
         canTurn = value;
+    }
+
+    public void Zoom(float zoom)
+    {
+       GetComponent<CinemachineFreeLook>().m_Lens.FieldOfView = zoom;
     }
 }

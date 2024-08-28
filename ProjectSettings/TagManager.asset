@@ -8,6 +8,7 @@ TagManager:
   - PlayerHUD
   - Enemy
   - PlayerController
+  - ThirdPersonCam
   layers:
   - Default
   - TransparentFX

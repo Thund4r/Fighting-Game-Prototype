@@ -212,6 +212,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Chain Attack",
+            "id": "e0982925-ff8f-433f-a9cf-b7ddc590541c",
+            "actions": [
+                {
+                    "name": "Character 1",
+                    "type": "Button",
+                    "id": "ca4b3670-69c4-4816-963d-0b5318468340",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Character 2",
+                    "type": "Button",
+                    "id": "99ab7e69-321f-46df-a6ad-66990225cbe2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0e64e446-af8d-4c71-bb4f-25f0ba1c9dd2",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Character 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54fe03ab-7bb9-4e21-b4bf-87a1846b450d",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Character 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

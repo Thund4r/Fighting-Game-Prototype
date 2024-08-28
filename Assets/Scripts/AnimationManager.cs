@@ -25,4 +25,14 @@ public class AnimationManager : MonoBehaviour
     {
         playerHUD.GainOverheat();
     }
+
+    public void BeginComboFinisher()
+    {
+        playerAttack.SetComboFinisher(true);
+    }
+
+    public void EndComboFinisher() 
+    {
+        playerAttack.SetComboFinisher(false);
+    }
 }

@@ -234,6 +234,54 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Chain Attack"",
+            ""id"": ""e0982925-ff8f-433f-a9cf-b7ddc590541c"",
+            ""actions"": [
+                {
+                    ""name"": ""Character 1"",
+                    ""type"": ""Button"",
+                    ""id"": ""ca4b3670-69c4-4816-963d-0b5318468340"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Character 2"",
+                    ""type"": ""Button"",
+                    ""id"": ""99ab7e69-321f-46df-a6ad-66990225cbe2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0e64e446-af8d-4c71-bb4f-25f0ba1c9dd2"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Character 1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54fe03ab-7bb9-4e21-b4bf-87a1846b450d"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Character 2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -248,6 +296,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Ground_Sprint = m_Ground.FindAction("Sprint", throwIfNotFound: true);
         m_Ground_Parry = m_Ground.FindAction("Parry", throwIfNotFound: true);
         m_Ground_ExSpecial = m_Ground.FindAction("Ex-Special", throwIfNotFound: true);
+        // Chain Attack
+        m_ChainAttack = asset.FindActionMap("Chain Attack", throwIfNotFound: true);
+        m_ChainAttack_Character1 = m_ChainAttack.FindAction("Character 1", throwIfNotFound: true);
+        m_ChainAttack_Character2 = m_ChainAttack.FindAction("Character 2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -407,6 +459,60 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public GroundActions @Ground => new GroundActions(this);
+
+    // Chain Attack
+    private readonly InputActionMap m_ChainAttack;
+    private List<IChainAttackActions> m_ChainAttackActionsCallbackInterfaces = new List<IChainAttackActions>();
+    private readonly InputAction m_ChainAttack_Character1;
+    private readonly InputAction m_ChainAttack_Character2;
+    public struct ChainAttackActions
+    {
+        private @PlayerControls m_Wrapper;
+        public ChainAttackActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Character1 => m_Wrapper.m_ChainAttack_Character1;
+        public InputAction @Character2 => m_Wrapper.m_ChainAttack_Character2;
+        public InputActionMap Get() { return m_Wrapper.m_ChainAttack; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ChainAttackActions set) { return set.Get(); }
+        public void AddCallbacks(IChainAttackActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ChainAttackActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ChainAttackActionsCallbackInterfaces.Add(instance);
+            @Character1.started += instance.OnCharacter1;
+            @Character1.performed += instance.OnCharacter1;
+            @Character1.canceled += instance.OnCharacter1;
+            @Character2.started += instance.OnCharacter2;
+            @Character2.performed += instance.OnCharacter2;
+            @Character2.canceled += instance.OnCharacter2;
+        }
+
+        private void UnregisterCallbacks(IChainAttackActions instance)
+        {
+            @Character1.started -= instance.OnCharacter1;
+            @Character1.performed -= instance.OnCharacter1;
+            @Character1.canceled -= instance.OnCharacter1;
+            @Character2.started -= instance.OnCharacter2;
+            @Character2.performed -= instance.OnCharacter2;
+            @Character2.canceled -= instance.OnCharacter2;
+        }
+
+        public void RemoveCallbacks(IChainAttackActions instance)
+        {
+            if (m_Wrapper.m_ChainAttackActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IChainAttackActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ChainAttackActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ChainAttackActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ChainAttackActions @ChainAttack => new ChainAttackActions(this);
     public interface IGroundActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -417,5 +523,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnParry(InputAction.CallbackContext context);
         void OnExSpecial(InputAction.CallbackContext context);
+    }
+    public interface IChainAttackActions
+    {
+        void OnCharacter1(InputAction.CallbackContext context);
+        void OnCharacter2(InputAction.CallbackContext context);
     }
 }
