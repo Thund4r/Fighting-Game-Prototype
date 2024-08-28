@@ -14,6 +14,7 @@ public class EnemyMovement : MonoBehaviour
     public float maxDaze;
     public float daze;
     public float stunDuration;
+    public float dmgMult;
     public bool isParryable = false;
     public bool canMove = true;
     public bool isAttacking = false;
@@ -66,6 +67,7 @@ public class EnemyMovement : MonoBehaviour
         if (daze == maxDaze)
         {
             isStunned = true;
+            dmgMult = 2f;
         }
     }
 
@@ -75,13 +77,15 @@ public class EnemyMovement : MonoBehaviour
         if (daze == 0)
         {
             isStunned = false;
+            dmgMult = 1f;
         }
         
     }
 
     public void TakeDamage(int damage)
     {
-        health -= damage;
+
+        health -= damage * dmgMult;
         if (canMove || isAttacking)
         {
             this.attack.timer = Mathf.Clamp(this.attack.timer - (this.attack.timer * (health/(maxHP*8)) + 0.07f), 0, 1000);

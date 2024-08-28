@@ -2420,6 +2420,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3374789772784926870, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
+      propertyPath: dmgMult
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374789772784926870, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
       propertyPath: maxDaze
       value: 100
       objectReference: {fileID: 0}
