@@ -35,4 +35,24 @@ public class AnimationManager : MonoBehaviour
     {
         playerAttack.SetComboFinisher(false);
     }
+
+    public void RangedBasic1()
+    {
+        playerAttack.RangedBasic1();
+    }
+
+    public void RangedBasic2()
+    {
+        playerAttack.RangedBasic2();
+    }
+
+    public void RangedBasicEnd()
+    {
+        playerAttack.RangedBasicEnd();
+    }
+
+    public void RangeDodge()
+    {
+        playerAttack.RangeDodge();
+    }
 }

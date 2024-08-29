@@ -13,13 +13,11 @@ public class PlayerMotor : MonoBehaviour
     private bool isDodge = false;
     public bool perfectDodge = false;
     private Vector3 dodgeVelocity;
-    private float Dframe;
 
     void Start()
     {
         speed = walkSpeed;
         controller = GetComponent<CharacterController>();
-        Dframe = GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().Dframe;
     }
 
     void Update()
@@ -64,7 +62,7 @@ public class PlayerMotor : MonoBehaviour
         else {speed = walkSpeed;}
     }
 
-    public void Dodge(Vector2 input)
+    public void Dodge(Vector2 input, float dodgeSpeed, float dodgeTime)
     {
         if (!isDodge)
         {
@@ -93,20 +91,20 @@ public class PlayerMotor : MonoBehaviour
 
             Vector3 dashDirection = (forward * input.y + right * input.x).normalized;
 
-            dodgeVelocity = dashDirection * speed * 5f;
+            dodgeVelocity = dashDirection * dodgeSpeed * 5f;
 
-            StartCoroutine(DecayDodgeVelocity(rb));
+            StartCoroutine(DecayDodgeVelocity(rb, dodgeTime));
         }
     }
 
-    private IEnumerator DecayDodgeVelocity(Rigidbody rb)
+    private IEnumerator DecayDodgeVelocity(Rigidbody rb, float dodgeTime)
     {
         float elapsedTime = 0f;
         Vector3 initialVelocity = dodgeVelocity;
 
-        while (elapsedTime < Dframe)
+        while (elapsedTime < dodgeTime)
         {
-            dodgeVelocity = Vector3.Lerp(initialVelocity, Vector3.zero, elapsedTime / Dframe);
+            dodgeVelocity = Vector3.Lerp(initialVelocity, Vector3.zero, elapsedTime / dodgeTime);
             controller.Move(dodgeVelocity * Time.deltaTime);
 
             elapsedTime += Time.deltaTime;

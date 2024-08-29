@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEditor.Experimental.GraphView.GraphView;
@@ -16,8 +17,11 @@ public class PlayerAttack : MonoBehaviour
     public float overheatCost;
     private float timer;
     private PlayerParry playerParry;
+    private PlayerMotor playerMotor;
     public WeaponCollision weaponCollision;
     private GameObject chainEnemy;
+    public GameObject BulletPrefab;
+    public Transform GunBarrel;
 
     float lastClickedTime = 0f;
     float maxComboDelay = 0.3f;
@@ -27,6 +31,7 @@ public class PlayerAttack : MonoBehaviour
     {
         mAnimator = mAnimator.GetComponent<Animator>();
         playerParry = GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerParry>();
+        playerMotor = GetComponent<PlayerMotor>();
     }
 
     // Update is called once per frame
@@ -191,6 +196,7 @@ public class PlayerAttack : MonoBehaviour
         chainEnemy = enemy;
         GetComponent<InputManager>().EnableChainAttack();
 
+
         Time.timeScale = 0.01f;
     }
 
@@ -202,14 +208,107 @@ public class PlayerAttack : MonoBehaviour
         Time.timeScale = 0.5f;
         EnemyMovement enemyMovement = chainEnemy.gameObject.GetComponent<EnemyMovement>();
         Vector3 direction = (transform.position - chainEnemy.transform.position).normalized;
-        transform.position = chainEnemy.transform.position + direction * 3.6f;
-
-
         mAnimator.SetTrigger("ChainAttack");
+        yield return new WaitForSeconds(0.1f);
+        transform.position = chainEnemy.transform.position + direction * 2f;
+
+        
         yield return new WaitForSeconds(0.6f);
         Time.timeScale = 1f;
         
 
+    }
+
+    public void RangeDodge()
+    {
+        playerMotor.Dodge(new Vector2(-1.00f, 0.75f), 2f, 0.66f);
+    }
+
+    public void RangedBasic1()
+    {
+        RaycastHit hitInfo;
+        Physics.Linecast(transform.position, transform.position + transform.forward * 20, out hitInfo);
+        if (hitInfo.collider != null)
+        {
+            GameObject bulletLine = Instantiate(BulletPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            bulletLine.GetComponent<LineRenderer>().SetPosition(0, GunBarrel.position);
+            bulletLine.GetComponent<LineRenderer>().SetPosition(1, hitInfo.transform.position);
+            Destroy(bulletLine, 0.08f);
+            EnemyMovement enemyMovement = hitInfo.collider.gameObject.GetComponent<EnemyMovement>();
+            GameObject HitVFXObj = Instantiate(weaponCollision.HitVFX, hitInfo.transform.position, Quaternion.identity);
+            Destroy(HitVFXObj, 0.5f);
+            enemyMovement.TakeDamage(1);
+            enemyMovement.TakeDaze(1);
+
+        }
+        else
+        {
+            GameObject bulletLine = Instantiate(BulletPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            bulletLine.GetComponent<LineRenderer>().SetPosition(0, GunBarrel.position);
+            bulletLine.GetComponent<LineRenderer>().SetPosition(1, GunBarrel.position + GunBarrel.forward * 20);
+            Destroy(bulletLine, 0.08f);
+        }
+
+    }
+
+    public void RangedBasic2()
+    {
+        RaycastHit hitInfo;
+        Physics.Linecast(transform.position, transform.position + transform.forward * 20, out hitInfo);
+        if (hitInfo.collider != null)
+        {
+            GameObject bulletLine = Instantiate(BulletPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            bulletLine.GetComponent<LineRenderer>().SetPosition(0, GunBarrel.position);
+            bulletLine.GetComponent<LineRenderer>().SetPosition(1, hitInfo.transform.position);
+            Destroy(bulletLine, 0.17f);
+            EnemyMovement enemyMovement = hitInfo.collider.gameObject.GetComponent<EnemyMovement>();
+            GameObject HitVFXObj = Instantiate(weaponCollision.HitVFX, hitInfo.transform.position, Quaternion.identity);
+            Destroy(HitVFXObj, 0.5f);
+            GameObject HitVFXObj2 = Instantiate(weaponCollision.HitVFX, hitInfo.transform.position, Quaternion.identity);
+            Destroy(HitVFXObj2, 0.5f);
+            enemyMovement.TakeDamage(2);
+            enemyMovement.TakeDaze(1);
+           
+
+        }
+        else
+        {
+            GameObject bulletLine = Instantiate(BulletPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+            bulletLine.GetComponent<LineRenderer>().SetPosition(0, GunBarrel.position);
+            bulletLine.GetComponent<LineRenderer>().SetPosition(1, GunBarrel.position + GunBarrel.forward * 20);
+            Destroy(bulletLine, 0.17f);
+        }
+
+    }
+
+    public void RangedBasicEnd()
+    {
+        RaycastHit hitInfo;
+        Physics.Linecast(transform.position, transform.position + transform.forward * 20, out hitInfo);
+        if (!hitInfo.collider.gameObject.GetComponent<EnemyMovement>().isChained)
+        {
+            ChainAttack(hitInfo.collider.gameObject);
+        }
+    }
+
+    private IEnumerator BulletSpawn(RaycastHit hitInfo)
+    {
+        if (hitInfo.collider != null)
+        {
+            LineRenderer bulletLine = Instantiate(BulletPrefab, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<LineRenderer>();
+            bulletLine.SetPosition(0, this.transform.position);
+            bulletLine.SetPosition(1, hitInfo.transform.position);
+            yield return new WaitForSeconds(1f);
+            Destroy(bulletLine);
+        }
+        else
+        {
+            LineRenderer bulletLine = Instantiate(BulletPrefab, new Vector3(0, 0, 0), Quaternion.identity).GetComponent<LineRenderer>();
+            bulletLine.SetPosition(0, this.transform.position);
+            bulletLine.SetPosition(1, this.transform.position + this.transform.forward * 20);
+            yield return new WaitForSeconds(1f);
+            Destroy(bulletLine);
+        }
     }
 
     public void ParryCheck()

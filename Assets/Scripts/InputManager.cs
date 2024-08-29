@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class InputManager : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class InputManager : MonoBehaviour
         ground.HoldAttack.canceled += ctx => playerAttack.HoldAttack(false);
         ground.Dodge.performed += ctx =>
         {
-            playerMotor.Dodge(ground.Movement.ReadValue<Vector2>());
+            playerMotor.Dodge(ground.Movement.ReadValue<Vector2>(), 5f, GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().Dframe);
             playerHUD.GetComponent<PlayerHealth>().Dodge();
         };
         ground.Parry.performed += ctx => playerAttack.ParryCheck();

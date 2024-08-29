@@ -20,9 +20,9 @@ My attempt at recreating Zenless Zone Zero combat mechanics.
 * Parry resource			    (28/8/2024)
 
 # To be added -
-* Different enemy attacks
+* Ranged player attack (Animate line)
+* Different enemy attacks (Enemy attack chain, ranged attacks etc.)
 * Hit-reg animations (SFX)
-* Ranged Enemy attacks
 * More dynamic animations
 * TBD
 

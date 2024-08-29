@@ -69,6 +69,7 @@ public class EnemyMovement : MonoBehaviour
         {
             isStunned = true;
             isChained = false;
+            isPerfectDodge = false;
             dmgMult = 2f;
         }
     }
@@ -93,7 +94,7 @@ public class EnemyMovement : MonoBehaviour
         {
             this.attack.timer = Mathf.Clamp(this.attack.timer - (this.attack.timer * (health/(maxHP*8)) + 0.07f), 0, 1000);
             Vector3 knockbackDirection = (transform.position - player.transform.position).normalized;
-            agent.GetComponent<Rigidbody>().AddForce(knockbackDirection * 300f);
+            agent.GetComponent<Rigidbody>().velocity = Vector3.zero;
             GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(5);
         }
 
