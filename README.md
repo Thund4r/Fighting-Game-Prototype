@@ -18,9 +18,9 @@ My attempt at recreating Zenless Zone Zero combat mechanics.
 * Stun & Dmg multiplier                     (28/8/2024)
 * Chain Attack (Single char for now)        (28/8/2024)
 * Parry resource			    (28/8/2024)
+* Ranged player attack (Animated line)	    (29/8/2024)
 
 # To be added -
-* Ranged player attack (Animate line)
 * Different enemy attacks (Enemy attack chain, ranged attacks etc.)
 * Hit-reg animations (SFX)
 * More dynamic animations
