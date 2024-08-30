@@ -266,7 +266,8 @@ public class PlayerAttack : MonoBehaviour
             Destroy(HitVFXObj, 0.5f);
             GameObject HitVFXObj2 = Instantiate(weaponCollision.HitVFX, hitInfo.transform.position, Quaternion.identity);
             Destroy(HitVFXObj2, 0.5f);
-            enemyMovement.TakeDamage(2);
+            enemyMovement.TakeDamage(1);
+            enemyMovement.TakeDamage(1);
             enemyMovement.TakeDaze(1);
            
 

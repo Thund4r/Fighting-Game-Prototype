@@ -27,6 +27,7 @@ public class EnemyMovement : MonoBehaviour
     private GameObject player;
     private float distance;  
     private bool alive = true;
+    [SerializeField] private AudioClip[] damageSFX;
     
     
     // Start is called before the first frame update
@@ -90,12 +91,14 @@ public class EnemyMovement : MonoBehaviour
     {
 
         health -= damage * dmgMult;
+        SoundManager.instance.PlaySoundFX(this.transform, damageSFX);
         if (canMove || isAttacking)
         {
             this.attack.timer = Mathf.Clamp(this.attack.timer - (this.attack.timer * (health/(maxHP*8)) + 0.07f), 0, 1000);
             Vector3 knockbackDirection = (transform.position - player.transform.position).normalized;
             agent.GetComponent<Rigidbody>().velocity = Vector3.zero;
             GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(5);
+            
         }
 
             
