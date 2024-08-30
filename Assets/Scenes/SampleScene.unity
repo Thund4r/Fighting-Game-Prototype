@@ -1364,6 +1364,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205590941}
   m_CullTransparentMesh: 1
+--- !u!95 &1207933716 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5388771456760505376, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
+  m_PrefabInstance: {fileID: 4104230745397200705}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1233211798 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6884320607948398326, guid: 84011cc3b7934b9479d3a16a495ee7f5, type: 3}
@@ -2262,6 +2267,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1866358428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1866358430}
+  - component: {fileID: 1866358429}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1866358429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866358428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fba20c3921ccd374d8c1e5af34eb8358, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundFXObject: {fileID: 576099000768139135, guid: c860fbae39c2f8540ae8ac5c58774fa5, type: 3}
+--- !u!4 &1866358430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866358428}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.0376546, y: -0.3161578, z: 18.458857}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1939504221
 GameObject:
   m_ObjectHideFlags: 0
@@ -2573,6 +2623,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -1.768
       objectReference: {fileID: 0}
+    - target: {fileID: 842037183461724364, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2569738443518055108, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
       propertyPath: m_Name
       value: EnemyHUD
@@ -2583,7 +2637,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3374789772784926870, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
       propertyPath: maxHP
-      value: 100
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3374789772784926870, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
       propertyPath: dmgMult
@@ -2605,6 +2659,18 @@ PrefabInstance:
       propertyPath: movementSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3374789772784926870, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
+      propertyPath: damageSFX.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3374789772784926870, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
+      propertyPath: damageSFX.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: d9b609560fdcfcd4baa45be7fab34647, type: 3}
+    - target: {fileID: 3374789772784926870, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
+      propertyPath: damageSFX.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2bdb16b403efa2343ba5f70b1425a9f2, type: 3}
     - target: {fileID: 3410921464645325988, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2673,6 +2739,14 @@ PrefabInstance:
       propertyPath: attackCD
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7622182943603977348, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
+      propertyPath: mAnimator
+      value: 
+      objectReference: {fileID: 1207933716}
+    - target: {fileID: 7622182943603977348, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
+      propertyPath: warningSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 51cb57d956ec5924692de77a93a3c2e5, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2683,6 +2757,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 705507995}
+  - {fileID: 1866358430}
   - {fileID: 1722180029}
   - {fileID: 1114809681}
   - {fileID: 48677495}

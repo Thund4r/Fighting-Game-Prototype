@@ -19,11 +19,12 @@ My attempt at recreating Zenless Zone Zero combat mechanics.
 * Chain Attack (Single char for now)        (28/8/2024)
 * Parry resource			    (28/8/2024)
 * Ranged player attack (Animated line)	    (29/8/2024)
+* Enemy attack chain			    (30/8/2024)
+* Hit-reg animations (SFX)		    (30/8/2024)  [Final update for a while, going on vacation]
 
 # To be added -
-* Different enemy attacks (Enemy attack chain, ranged attacks etc.)
-* Hit-reg animations (SFX)
 * More dynamic animations
+* Ranged enemy attack
 * TBD
 
 # Progress - 
@@ -34,3 +35,7 @@ Day 5 (26/8/2024):
 Day 7 (28/8/2024):
 
 ![](https://github.com/Thund4r/Fighting-Game-Prototype/blob/main/PrototypeProgress2.gif)
+
+Day 9 (30/8/2024):
+
+![](https://github.com/Thund4r/Fighting-Game-Prototype/blob/main/PrototypeProgress3.gif)

@@ -221,7 +221,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void RangeDodge()
     {
-        playerMotor.Dodge(new Vector2(-1.00f, 0.75f), 2f, 0.66f);
+        playerMotor.Dodge(new Vector2(-0.75f, 0.75f), 2f, 0.66f);
     }
 
     public void RangedBasic1()
@@ -360,7 +360,7 @@ public class PlayerAttack : MonoBehaviour
         Time.timeScale = 0.7f;
         playerParry.LoseParry();
         enemyMovement.attack.Parried();
-        enemyMovement.TakeDaze(25);
+        enemyMovement.TakeDaze(15);
         closestEnemy.gameObject.GetComponent<Animator>().SetTrigger("Parry");
         mAnimator.SetTrigger("Parry");
         

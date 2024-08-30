@@ -12,7 +12,7 @@ public class WeaponCollision : MonoBehaviour
         if (collision.name == "EnemyObj")
         {
             collision.GetComponent<EnemyMovement>().TakeDamage(1);
-            collision.GetComponent<EnemyMovement>().TakeDaze(3);
+            collision.GetComponent<EnemyMovement>().TakeDaze(1);
             GameObject HitVFXObj = Instantiate(HitVFX, collision.ClosestPoint(transform.position), Quaternion.identity);
 
             Destroy(HitVFXObj, 0.5f);
