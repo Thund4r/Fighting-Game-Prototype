@@ -30,6 +30,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private AudioClip[] damageSFX;
     
     
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -57,6 +58,17 @@ public class EnemyMovement : MonoBehaviour
         {
             StunUpdate();
         }
+    }
+
+    public void Lunge()
+    {
+
+        agent.GetComponent<Rigidbody>().AddForce(agent.transform.forward * (movementSpeed * 500));
+    }
+
+    public void LookAtPlayer()
+    {
+        agent.transform.LookAt(player.transform);
     }
 
     public void TakeDaze(int value)
@@ -91,7 +103,7 @@ public class EnemyMovement : MonoBehaviour
     {
 
         health -= damage * dmgMult;
-        SoundManager.instance.PlaySoundFX(this.transform, damageSFX);
+        SoundManager.instance.PlaySoundFXs(this.transform, damageSFX);
         if (canMove || isAttacking)
         {
             this.attack.timer = Mathf.Clamp(this.attack.timer - (this.attack.timer * (health/(maxHP*8)) + 0.07f), 0, 1000);
@@ -114,7 +126,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void attackRoutine()
     {
-        attack.triggerAttack();
+        attack.triggerAttack("Attack1");
     }
 
     public void death()

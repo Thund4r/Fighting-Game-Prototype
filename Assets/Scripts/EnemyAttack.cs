@@ -11,6 +11,8 @@ public class EnemyAttack : MonoBehaviour
     public float attackCD;
     private Coroutine attackCheck;
     private PlayerParry playerParry;
+    [SerializeField] private AudioClip warningSFX;
+    public Animator mAnimator;
     public float timer;
 
     private float YWarnR = 255f;
@@ -47,6 +49,7 @@ public class EnemyAttack : MonoBehaviour
     {
         StopCoroutine(attackCheck);
         enemyMovement.isParryable = false;
+        enemyMovement.isPerfectDodge = false;
         enemyMovement.canMove = true;
         warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 0);
     }
@@ -63,26 +66,27 @@ public class EnemyAttack : MonoBehaviour
         this.GetComponent<CapsuleCollider>().enabled = false;
     }
 
-    public void triggerAttack()
+    public void triggerAttack(string attack)
     {
-        if (timer > attackCD)
+        if (timer > attackCD || attack == "Attack2")
         {
             enemyMovement.canMove = false;
             timer = 0;
             if (playerParry.parryCount > 0)
             {
                 enemyMovement.isParryable = true;
-                attackCheck = StartCoroutine(YellowAttackCoroutine());
+                attackCheck = StartCoroutine(YellowAttackCoroutine(attack));
             }
-            else { attackCheck = StartCoroutine(RedAttackCoroutine()); }
+            else { attackCheck = StartCoroutine(RedAttackCoroutine(attack)); }
 
             }
 
         
     }
 
-    public IEnumerator RedAttackCoroutine()
+    public IEnumerator RedAttackCoroutine(string attack)
     {
+        SoundManager.instance.PlaySoundFX(this.transform, warningSFX);
         enemyMovement.isAttacking = true;
         warningLight.color = new Color(RWarnR, RWarnG, RWarnB, 1);
 
@@ -90,19 +94,23 @@ public class EnemyAttack : MonoBehaviour
         enemyMovement.isPerfectDodge = true;
         yield return new WaitForSeconds(0.2f);
         warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 0);
-        this.GetComponent<MeshRenderer>().enabled = true;
-        this.GetComponent<CapsuleCollider>().enabled = true;
-        yield return new WaitForSeconds(0.4f);
-        this.GetComponent<MeshRenderer>().enabled = false;
-        this.GetComponent<CapsuleCollider>().enabled = false;
+        mAnimator.SetTrigger(attack);
+        yield return new WaitForSeconds(0.42f);
         enemyMovement.isPerfectDodge = false;
         enemyMovement.isAttacking = false;
         enemyMovement.canMove = true;
+        int attackCont = Random.Range(0, 2);
+        if (attack == "Attack1" && attackCont > 0)
+        {
+            enemyMovement.LookAtPlayer();
+            triggerAttack("Attack2");
+        }
 
     }
 
-    public IEnumerator YellowAttackCoroutine()
+    public IEnumerator YellowAttackCoroutine(string attack)
     {
+        SoundManager.instance.PlaySoundFX(this.transform, warningSFX);
         enemyMovement.isAttacking = true;
         warningLight.color = new Color(YWarnR, YWarnG, YWarnB, 1);
 
@@ -111,14 +119,18 @@ public class EnemyAttack : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         enemyMovement.isParryable = false;
         warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 0);
-        this.GetComponent<MeshRenderer>().enabled = true;
-        this.GetComponent<CapsuleCollider>().enabled = true;
-        yield return new WaitForSeconds(0.4f);
-        this.GetComponent<MeshRenderer>().enabled = false;
-        this.GetComponent<CapsuleCollider>().enabled = false;
+        mAnimator.SetTrigger(attack);
+        yield return new WaitForSeconds(0.42f);
         enemyMovement.isPerfectDodge = false;
         enemyMovement.isAttacking = false;
         enemyMovement.canMove = true;
+        int attackCont = Random.Range(0, 2);
+        Debug.Log(attackCont);
+        if (attack == "Attack1" && attackCont > 0)
+        {
+            enemyMovement.LookAtPlayer();
+            triggerAttack("Attack2");
+        }
 
     }
 }
