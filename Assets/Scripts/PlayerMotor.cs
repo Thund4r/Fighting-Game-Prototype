@@ -44,7 +44,7 @@ public class PlayerMotor : MonoBehaviour
             {
                 // Rotate the player to face the direction of movement
                 Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+                this.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
             }
 
             if (!controller.isGrounded)

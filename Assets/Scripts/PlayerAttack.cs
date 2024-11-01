@@ -315,7 +315,8 @@ public class PlayerAttack : MonoBehaviour
     public void ParryCheck()
     {
         if (playerParry.parryCount != 0) 
-        { 
+        {
+            Debug.Log("BeginParry");
             float closestDistance = Mathf.Infinity;
             Transform closestEnemy = null;
             Collider[] colliders = Physics.OverlapSphere(transform.position, 10f);
@@ -338,12 +339,13 @@ public class PlayerAttack : MonoBehaviour
             }
             if (closestEnemy != null)
             {
+                Debug.Log("ParrySuccesful");
                 FaceEnemy(closestEnemy);
                 StartCoroutine(ParryAnimation(closestEnemy));
             }
             else
             {
-                
+                Debug.Log("ParryFail");
             }
         }
     }
@@ -351,9 +353,9 @@ public class PlayerAttack : MonoBehaviour
     private void FaceEnemy(Transform enemy)
     {
         GetComponent<InputManager>().ToggleMove(false);
-        Vector3 direction = (enemy.position - transform.position).normalized;
+        Vector3 direction = (enemy.position - this.transform.position).normalized;
         direction.y = 0; // Ensure the player stays level on the ground
-        transform.rotation = Quaternion.LookRotation(direction);
+        this.transform.rotation = Quaternion.LookRotation(direction);
         enemy.gameObject.GetComponent<EnemyMovement>().agent.transform.rotation = Quaternion.LookRotation(-direction);
     }
 

@@ -17,8 +17,8 @@ public class ThirdPersonCam : MonoBehaviour
         Cursor.visible = false;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    // All the code below is currently redundant
+   /* void FixedUpdate()
     {
         if (canTurn)
         {
@@ -48,5 +48,5 @@ public class ThirdPersonCam : MonoBehaviour
     public void Zoom(float zoom)
     {
        GetComponent<CinemachineFreeLook>().m_Lens.FieldOfView = zoom;
-    }
+    }*/
 }

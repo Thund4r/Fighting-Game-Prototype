@@ -24,6 +24,7 @@ public class EnemyMovement : MonoBehaviour
 
 
     private float timer;
+    [SerializeField] private CharManager charManager;
     private GameObject player;
     private float distance;  
     private bool alive = true;
@@ -35,12 +36,13 @@ public class EnemyMovement : MonoBehaviour
     void Start()
     {
         health = maxHP;
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = charManager.activeChar;
     }
 
     // Update is called once per frame
     void LateUpdate()
     {
+        player = charManager.activeChar;
         timer += Time.deltaTime;
         if (alive && canMove && !isStunned)
         {

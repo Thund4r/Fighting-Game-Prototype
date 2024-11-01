@@ -3018,6 +3018,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3374789772784926870, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
+      propertyPath: charManager
+      value: 
+      objectReference: {fileID: 1296214102}
+    - target: {fileID: 3374789772784926870, guid: 3459e28e210876c4ab6bc8717ef4fc08, type: 3}
       propertyPath: stunDuration
       value: 6
       objectReference: {fileID: 0}

@@ -9,23 +9,30 @@ public class CharManager : MonoBehaviour
     [SerializeField] private GameObject Char2;
     [SerializeField] private CinemachineFreeLook virCamera;
     public GameObject activeChar;
-    private 
+    private float timer;
 
     void Start()
     {
         activeChar = Char1;
     }
 
+    private void Update()
+    {
+        timer -= Time.deltaTime;
+    }
+
     public void SwapNextChar()
     {
-        if (activeChar == Char1)
+        if (activeChar == Char1 && timer <= 0)
         {
             StartCoroutine(SetActive(Char2));
+            timer = 2f;
 
         }
-        else if (activeChar == Char2)
+        else if (activeChar == Char2 && timer <= 0)
         {
             StartCoroutine(SetActive(Char1));
+            timer = 2f;
         }
     }
 
@@ -36,11 +43,11 @@ public class CharManager : MonoBehaviour
         targetChar.SetActive(true);
         targetChar.GetComponent<InputManager>().enabled = true;
         activeChar.GetComponent<InputManager>().enabled = false;
-        virCamera.m_Follow = targetChar.transform;
-        virCamera.m_LookAt = targetChar.transform;
+        virCamera.m_Follow = targetChar.transform.Find("PlayerObj");
+        virCamera.m_LookAt = targetChar.transform.Find("PlayerObj");
         yield return new WaitForSeconds(0.1f);
         targetChar.GetComponent<PlayerAttack>().ParryCheck();
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.3f);
         activeChar.SetActive(false);
         activeChar = targetChar;
     }
