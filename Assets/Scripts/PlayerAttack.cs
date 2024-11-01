@@ -341,6 +341,10 @@ public class PlayerAttack : MonoBehaviour
                 FaceEnemy(closestEnemy);
                 StartCoroutine(ParryAnimation(closestEnemy));
             }
+            else
+            {
+                
+            }
         }
     }
 
@@ -352,6 +356,8 @@ public class PlayerAttack : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(direction);
         enemy.gameObject.GetComponent<EnemyMovement>().agent.transform.rotation = Quaternion.LookRotation(-direction);
     }
+
+
     private IEnumerator ParryAnimation(Transform closestEnemy)
     {
         EnemyMovement enemyMovement = closestEnemy.gameObject.GetComponent<EnemyMovement>();

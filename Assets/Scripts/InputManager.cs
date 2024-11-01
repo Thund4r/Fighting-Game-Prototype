@@ -14,6 +14,7 @@ public class InputManager : MonoBehaviour
     private PlayerAttack playerAttack;
     private bool canMove = true;
     private GameObject playerHUD;
+    [SerializeField] private CharManager charManager;
     // Start is called before the first frame update
     void Awake()
     {
@@ -31,7 +32,8 @@ public class InputManager : MonoBehaviour
             playerMotor.Dodge(ground.Movement.ReadValue<Vector2>(), 5f, GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().Dframe);
             playerHUD.GetComponent<PlayerHealth>().Dodge();
         };
-        ground.Parry.performed += ctx => playerAttack.ParryCheck();
+        //ground.Parry.performed += ctx => playerAttack.ParryCheck();   --- OLD PARRY
+        ground.Parry.performed += ctx => charManager.SwapNextChar();
         ground.Sprint.performed += ctx => playerMotor.Sprint(true);
         ground.Sprint.canceled += ctx => playerMotor.Sprint(false);
         ground.ExSpecial.performed += ctx => playerAttack.ExSpecialCheck(playerHUD);

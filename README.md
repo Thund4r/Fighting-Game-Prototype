@@ -23,9 +23,9 @@ My attempt at recreating Zenless Zone Zero combat mechanics.
 * Hit-reg animations (SFX)		    (30/8/2024)  [Final update for a while, going on vacation]
 
 # To be added -
-* More dynamic animations
-* Ranged enemy attack
-* TBD
+** Teamswap parry (Important) **
+* Burnice (close approximation)
+
 
 # Progress - 
 Day 5 (26/8/2024): 
