@@ -125,7 +125,6 @@ public class EnemyAttack : MonoBehaviour
         enemyMovement.isAttacking = false;
         enemyMovement.canMove = true;
         int attackCont = Random.Range(0, 2);
-        Debug.Log(attackCont);
         if (attack == "Attack1" && attackCont > 0)
         {
             enemyMovement.LookAtPlayer();

@@ -228,7 +228,7 @@ public class PlayerAttack : MonoBehaviour
     {
         RaycastHit hitInfo;
         Physics.Linecast(transform.position, transform.position + transform.forward * 20, out hitInfo);
-        if (hitInfo.collider != null)
+        if (hitInfo.collider.gameObject.name == "EnemyObj")
         {
             GameObject bulletLine = Instantiate(BulletPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             bulletLine.GetComponent<LineRenderer>().SetPosition(0, GunBarrel.position);
@@ -255,7 +255,7 @@ public class PlayerAttack : MonoBehaviour
     {
         RaycastHit hitInfo;
         Physics.Linecast(transform.position, transform.position + transform.forward * 20, out hitInfo);
-        if (hitInfo.collider != null)
+        if (hitInfo.collider.gameObject.name == "EnemyObj")
         {
             GameObject bulletLine = Instantiate(BulletPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             bulletLine.GetComponent<LineRenderer>().SetPosition(0, GunBarrel.position);
