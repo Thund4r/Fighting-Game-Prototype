@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerMotor : MonoBehaviour
 {
+    [SerializeField] private CharManager charManager;
     private CharacterController controller;
     public Transform cameraT;
     private float speed;
@@ -12,6 +13,7 @@ public class PlayerMotor : MonoBehaviour
     public float sprintSpeed = 8f;
     private bool isDodge = false;
     public bool perfectDodge = false;
+    private float DIframe = 1.5f;
     private Vector3 dodgeVelocity;
 
     void Start()
@@ -80,7 +82,7 @@ public class PlayerMotor : MonoBehaviour
             }
 
             isDodge = true;
-            Rigidbody rb = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>();
+            Rigidbody rb = charManager.activeChar.transform.Find("PlayerObj").GetComponent<Rigidbody>();
             rb.isKinematic = true;
             rb.detectCollisions = false;
             Vector3 forward = cameraT.forward;
@@ -90,6 +92,36 @@ public class PlayerMotor : MonoBehaviour
             right.y = 0f;   
 
             Vector3 dashDirection = (forward * input.y + right * input.x).normalized;
+
+            dodgeVelocity = dashDirection * dodgeSpeed * 5f;
+
+            StartCoroutine(DecayDodgeVelocity(rb, dodgeTime));
+        }
+    }
+
+    public void AnimDodge(Vector2 input, float dodgeSpeed, float dodgeTime)
+    {
+        if (!isDodge)
+        {
+            Collider[] colliders = Physics.OverlapSphere(transform.position, 10f);
+            foreach (Collider hit in colliders)
+            {
+                if (hit.name == "EnemyObj")
+                {
+                    if (hit.GetComponent<EnemyMovement>().isPerfectDodge)
+                    {
+                        Time.timeScale = 0.3f;
+                        perfectDodge = true;
+                    }
+                }
+            }
+
+            isDodge = true;
+            Rigidbody rb = charManager.activeChar.transform.Find("PlayerObj").GetComponent<Rigidbody>();
+            rb.isKinematic = true;
+            rb.detectCollisions = false;
+
+            Vector3 dashDirection = (this.transform.forward * input.y + this.transform.right * input.x).normalized;
 
             dodgeVelocity = dashDirection * dodgeSpeed * 5f;
 
@@ -115,6 +147,10 @@ public class PlayerMotor : MonoBehaviour
         isDodge = false;
         perfectDodge = false;
 
+        while (elapsedTime < DIframe)
+        {
+            elapsedTime += Time.deltaTime;
+        }
         rb.isKinematic = false;
         rb.detectCollisions = true;
     }

@@ -23,8 +23,19 @@ My attempt at recreating Zenless Zone Zero combat mechanics.
 * Hit-reg animations (SFX)		    (30/8/2024)  [Final update for a while, going on vacation]
 
 # To be added -
-** Teamswap parry (Important) **
-* Burnice (close approximation)
+* ** Teamswap parry (Important) **
+* Attempt at an original character
+* Fix Chain attack for multiple characters
+* Add a different HUD for the new character
+* ~~Burnice (close approximation)~~
+
+# Original Character Idea - 
+Perfect timing right click counter. (Like sheath mode using LS in monster hunter or foresight slash)
+
+Special resource that can be built up by doing damage, and can be ranked up by doing hold attack (like seth), and being able to consume one rank of the resource to perform Ex Special attack. Character does not have energy.
+As the weapon ranks up, character damage increases too, and Ex-Special damage also increases.
+
+Timestop for hold attack to rank up special resource.
 
 
 # Progress - 

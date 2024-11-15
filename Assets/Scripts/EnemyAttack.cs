@@ -11,6 +11,7 @@ public class EnemyAttack : MonoBehaviour
     public float attackCD;
     private Coroutine attackCheck;
     private PlayerParry playerParry;
+    [SerializeField] private CharManager charManager;
     [SerializeField] private AudioClip warningSFX;
     public Animator mAnimator;
     public float timer;
@@ -27,7 +28,7 @@ public class EnemyAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerParry = GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerParry>();
+        playerParry = GameObject.FindGameObjectWithTag("PersistentHUD").GetComponent<PlayerParry>();
         warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 0);
     }
 
@@ -39,9 +40,16 @@ public class EnemyAttack : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.name == "PlayerObj")
-        {
-            GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().TakeDamage(10);
+        if (collision.gameObject.name == "PlayerObj") 
+        { 
+            if (collision.gameObject.transform.parent.name == "Player 1")
+            {
+                GameObject.FindGameObjectWithTag("Player1HUD").GetComponent<PlayerHealth>().TakeDamage(10);
+            }
+            else if (collision.gameObject.transform.parent.name == "Player 2")
+            {
+                GameObject.FindGameObjectWithTag("Player2HUD").GetComponent<PlayerHealth>().TakeDamage(10);
+            }
         }
     }
 

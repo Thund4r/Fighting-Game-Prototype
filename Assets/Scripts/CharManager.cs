@@ -8,13 +8,11 @@ public class CharManager : MonoBehaviour
     [SerializeField] private GameObject Char1;
     [SerializeField] private GameObject Char2;
     [SerializeField] private CinemachineFreeLook virCamera;
+    [SerializeField] private GameObject Player1HUD;
+    [SerializeField] private GameObject Player2HUD;
     public GameObject activeChar;
+    public GameObject activeHUD;
     private float timer;
-
-    void Start()
-    {
-        activeChar = Char1;
-    }
 
     private void Update()
     {
@@ -25,22 +23,23 @@ public class CharManager : MonoBehaviour
     {
         if (activeChar == Char1 && timer <= 0)
         {
-            StartCoroutine(SetActive(Char2));
-            timer = 2f;
+            StartCoroutine(SetActive(Char2, Player2HUD));
+            timer = 1.4f;
 
         }
         else if (activeChar == Char2 && timer <= 0)
         {
-            StartCoroutine(SetActive(Char1));
-            timer = 2f;
+            StartCoroutine(SetActive(Char1, Player1HUD));
+            timer = 1.4f;
         }
     }
 
-    public IEnumerator SetActive(GameObject targetChar)
+    public IEnumerator SetActive(GameObject targetChar, GameObject targetHUD)
     {
-
         targetChar.transform.position = activeChar.transform.position + virCamera.GetComponent<ThirdPersonCam>().orientation.right * 1.4f;
         targetChar.SetActive(true);
+        targetHUD.GetComponent<Canvas>().enabled = true;
+        activeHUD.GetComponent<Canvas>().enabled = false;
         targetChar.GetComponent<InputManager>().enabled = true;
         activeChar.GetComponent<InputManager>().enabled = false;
         virCamera.m_Follow = targetChar.transform.Find("PlayerObj");
@@ -49,6 +48,8 @@ public class CharManager : MonoBehaviour
         targetChar.GetComponent<PlayerAttack>().ParryCheck();
         yield return new WaitForSeconds(1.3f);
         activeChar.SetActive(false);
+        activeHUD = targetHUD;
         activeChar = targetChar;
     }
+
 }

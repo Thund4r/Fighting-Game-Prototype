@@ -5,11 +5,10 @@ using UnityEngine;
 public class AnimationManager : MonoBehaviour
 {
     [SerializeField] private PlayerAttack playerAttack;
-    private PlayerOverheat playerHUD;
+    [SerializeField] private PlayerOverheat player1HUD;
     // Start is called before the first frame update
     private void Start()
     {
-        playerHUD = GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerOverheat>();
     }
     public void BeginFaceEnemy()
     {
@@ -21,9 +20,14 @@ public class AnimationManager : MonoBehaviour
         playerAttack.EndFaceEnemy();
     }
 
+    public void AttackCooldown()
+    {
+        playerAttack.AttackCooldown();
+    }
+
     public void GainOverheat()
     {
-        playerHUD.GainOverheat();
+        player1HUD.GainOverheat();
     }
 
     public void BeginComboFinisher()
@@ -54,5 +58,15 @@ public class AnimationManager : MonoBehaviour
     public void RangeDodge()
     {
         playerAttack.RangeDodge();
+    }
+
+    public void MeleeDodge()
+    {
+        playerAttack.MeleeDodge();
+    }
+
+    public void MeleeDodge2()
+    {
+        playerAttack.MeleeDodge2();
     }
 }

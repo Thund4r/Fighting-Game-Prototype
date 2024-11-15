@@ -18,6 +18,7 @@ public class PlayerAttack : MonoBehaviour
     private float timer;
     private PlayerParry playerParry;
     private PlayerMotor playerMotor;
+    private PlayerOverheat playerOverheat;
     public WeaponCollision weaponCollision;
     private GameObject chainEnemy;
     public GameObject BulletPrefab;
@@ -30,8 +31,9 @@ public class PlayerAttack : MonoBehaviour
     void Start()
     {
         mAnimator = mAnimator.GetComponent<Animator>();
-        playerParry = GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerParry>();
+        playerParry = GameObject.FindGameObjectWithTag("PersistentHUD").GetComponent<PlayerParry>();
         playerMotor = GetComponent<PlayerMotor>();
+        playerOverheat = GameObject.FindGameObjectWithTag("Player1HUD").GetComponent<PlayerOverheat>();
     }
 
     // Update is called once per frame
@@ -94,16 +96,19 @@ public class PlayerAttack : MonoBehaviour
             {
                 mAnimator.SetTrigger("Attack3");
                 noOfClicks = 0;
-                timer = 0.5f;
+                timer = 2f;
             }
         }
 
-}
+    }
+
+    public void AttackCooldown()
+    {
+        timer = 0.2f;
+    }
 
     public void HoldAttack(bool value)
     {
-
-        PlayerOverheat playerOverheat = GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerOverheat>();
         if (playerOverheat.overheat + playerOverheat.overheatRate <= playerOverheat.maxOverheat)
         {
             holdAttacking = value;
@@ -221,7 +226,17 @@ public class PlayerAttack : MonoBehaviour
 
     public void RangeDodge()
     {
-        playerMotor.Dodge(new Vector2(-0.75f, 0.75f), 2f, 0.66f);
+        playerMotor.AnimDodge(new Vector2(-0.75f, 0.75f), 2f, 0.66f);
+    }
+
+    public void MeleeDodge()
+    {
+        playerMotor.AnimDodge(new Vector2(-1.75f, 1.75f), 6f, 0.1f);
+    }
+
+    public void MeleeDodge2()
+    {
+        playerMotor.AnimDodge(new Vector2(0f, 1f), 3f, 0.35f);
     }
 
     public void RangedBasic1()
@@ -316,7 +331,6 @@ public class PlayerAttack : MonoBehaviour
     {
         if (playerParry.parryCount != 0) 
         {
-            Debug.Log("BeginParry");
             float closestDistance = Mathf.Infinity;
             Transform closestEnemy = null;
             Collider[] colliders = Physics.OverlapSphere(transform.position, 10f);
@@ -339,13 +353,11 @@ public class PlayerAttack : MonoBehaviour
             }
             if (closestEnemy != null)
             {
-                Debug.Log("ParrySuccesful");
                 FaceEnemy(closestEnemy);
                 StartCoroutine(ParryAnimation(closestEnemy));
             }
             else
             {
-                Debug.Log("ParryFail");
             }
         }
     }

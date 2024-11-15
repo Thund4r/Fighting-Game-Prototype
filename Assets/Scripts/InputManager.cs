@@ -13,12 +13,10 @@ public class InputManager : MonoBehaviour
     private PlayerMotor playerMotor;
     private PlayerAttack playerAttack;
     private bool canMove = true;
-    private GameObject playerHUD;
     [SerializeField] private CharManager charManager;
     // Start is called before the first frame update
     void Awake()
     {
-        playerHUD = GameObject.FindGameObjectWithTag("PlayerHUD");
         playerInput = new PlayerControls();
         ground = playerInput.Ground;
         chain = playerInput.ChainAttack;
@@ -29,14 +27,14 @@ public class InputManager : MonoBehaviour
         ground.HoldAttack.canceled += ctx => playerAttack.HoldAttack(false);
         ground.Dodge.performed += ctx =>
         {
-            playerMotor.Dodge(ground.Movement.ReadValue<Vector2>(), 5f, GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerHealth>().Dframe);
-            playerHUD.GetComponent<PlayerHealth>().Dodge();
+            playerMotor.Dodge(ground.Movement.ReadValue<Vector2>(), 5f, charManager.activeHUD.GetComponent<PlayerHealth>().Dframe);
+            charManager.activeHUD.GetComponent<PlayerHealth>().Dodge();
         };
         //ground.Parry.performed += ctx => playerAttack.ParryCheck();   --- OLD PARRY
         ground.Parry.performed += ctx => charManager.SwapNextChar();
         ground.Sprint.performed += ctx => playerMotor.Sprint(true);
         ground.Sprint.canceled += ctx => playerMotor.Sprint(false);
-        ground.ExSpecial.performed += ctx => playerAttack.ExSpecialCheck(playerHUD);
+        ground.ExSpecial.performed += ctx => playerAttack.ExSpecialCheck(charManager.activeHUD);
         chain.Character1.performed += ctx => StartCoroutine(playerAttack.TriggerChainAttack());
 
     }

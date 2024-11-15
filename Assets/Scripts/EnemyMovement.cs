@@ -70,7 +70,7 @@ public class EnemyMovement : MonoBehaviour
 
     public void LookAtPlayer()
     {
-        agent.transform.LookAt(player.transform);
+        agent.transform.LookAt(charManager.activeChar.transform);
     }
 
     public void TakeDaze(int value)
@@ -111,7 +111,15 @@ public class EnemyMovement : MonoBehaviour
             this.attack.timer = Mathf.Clamp(this.attack.timer - (this.attack.timer * (health/(maxHP*8)) + 0.07f), 0, 1000);
             Vector3 knockbackDirection = (transform.position - player.transform.position).normalized;
             agent.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            GameObject.FindGameObjectWithTag("PlayerHUD").GetComponent<PlayerEnergy>().GainEnergy(5);
+            if (charManager.activeChar.name == "Player 1")
+            {
+                charManager.activeHUD.GetComponent<PlayerEnergy>().GainEnergy(5);
+            }
+            else
+            {
+
+            }
+            
             
         }
 
