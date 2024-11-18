@@ -27,6 +27,7 @@ My attempt at recreating Zenless Zone Zero combat mechanics.
 * Attempt at an original character
 * Fix Chain attack for multiple characters
 * Add a different HUD for the new character
+* Add hitstun for player (animation slows down on hits)
 * ~~Burnice (close approximation)~~
 
 # Original Character Idea - 

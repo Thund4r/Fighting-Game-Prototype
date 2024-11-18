@@ -6,7 +6,13 @@ public class WeaponCollision : MonoBehaviour
 {
     public GameObject HitVFX;
     [SerializeField] private Animator mAnimator;
+    [SerializeField] private SwordEnergy swordEnergy;
     public bool comboFinisher = false;
+    public bool swordFinisher = false;
+    
+
+    
+
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.name == "EnemyObj")
@@ -26,6 +32,13 @@ public class WeaponCollision : MonoBehaviour
             if (mAnimator.GetCurrentAnimatorStateInfo(0).IsName("Chain Attack"))
             {
                 collision.GetComponent<EnemyMovement>().isChained = true;
+            }
+
+            if (swordFinisher)
+            {
+                swordEnergy.GainLevel();
+                swordEnergy.energy = 0;
+                swordFinisher = false;
             }
             
         }

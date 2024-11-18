@@ -19,6 +19,8 @@ public class PlayerAttack : MonoBehaviour
     private PlayerParry playerParry;
     private PlayerMotor playerMotor;
     private PlayerOverheat playerOverheat;
+    private SwordEnergy swordEnergy;
+    [SerializeField] private CharManager charManager;
     public WeaponCollision weaponCollision;
     private GameObject chainEnemy;
     public GameObject BulletPrefab;
@@ -34,6 +36,7 @@ public class PlayerAttack : MonoBehaviour
         playerParry = GameObject.FindGameObjectWithTag("PersistentHUD").GetComponent<PlayerParry>();
         playerMotor = GetComponent<PlayerMotor>();
         playerOverheat = GameObject.FindGameObjectWithTag("Player1HUD").GetComponent<PlayerOverheat>();
+        swordEnergy = GameObject.FindGameObjectWithTag("Player2HUD").GetComponent<SwordEnergy>();
     }
 
     // Update is called once per frame
@@ -109,16 +112,33 @@ public class PlayerAttack : MonoBehaviour
 
     public void HoldAttack(bool value)
     {
-        if (playerOverheat.overheat + playerOverheat.overheatRate <= playerOverheat.maxOverheat)
+        if (charManager.activeChar.name == "Player 1")
         {
-            holdAttacking = value;
-            mAnimator.SetBool("HoldAttack", value);
+            if (playerOverheat.overheat + playerOverheat.overheatRate <= playerOverheat.maxOverheat)
+            {
+                holdAttacking = value;
+                mAnimator.SetBool("HoldAttack", value);
+            }
+            else
+            {
+                holdAttacking = false;
+                mAnimator.SetBool("HoldAttack", false);
+            }
         }
-        else
+        else if (charManager.activeChar.name == "Player 2")
         {
-            holdAttacking = false;
-            mAnimator.SetBool("HoldAttack", false);
+            if (swordEnergy.energy == swordEnergy.energyThresh)
+            {
+                holdAttacking = value;
+                mAnimator.SetBool("HoldAttack", value);
+            }
+            else
+            {
+                holdAttacking = false;
+                mAnimator.SetBool("HoldAttack", false);
+            }
         }
+        
         
     }
 

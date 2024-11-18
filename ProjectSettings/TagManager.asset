@@ -5,10 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Weapon
-  - PlayerHUD
   - Enemy
   - PlayerController
   - ThirdPersonCam
+  - PersistentHUD
+  - Player1HUD
+  - Player2HUD
   layers:
   - Default
   - TransparentFX

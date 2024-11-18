@@ -115,9 +115,9 @@ public class EnemyMovement : MonoBehaviour
             {
                 charManager.activeHUD.GetComponent<PlayerEnergy>().GainEnergy(5);
             }
-            else
+            else if (charManager.activeChar.name == "Player 2")
             {
-
+                charManager.activeHUD.GetComponent<SwordEnergy>().GainEnergy(5);
             }
             
             

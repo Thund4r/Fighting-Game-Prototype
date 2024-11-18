@@ -11,6 +11,8 @@ public class EnemyAttack : MonoBehaviour
     public float attackCD;
     private Coroutine attackCheck;
     private PlayerParry playerParry;
+    private GameObject player1HUD;
+    private GameObject player2HUD;
     [SerializeField] private CharManager charManager;
     [SerializeField] private AudioClip warningSFX;
     public Animator mAnimator;
@@ -30,6 +32,8 @@ public class EnemyAttack : MonoBehaviour
     {
         playerParry = GameObject.FindGameObjectWithTag("PersistentHUD").GetComponent<PlayerParry>();
         warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 0);
+        player1HUD = GameObject.FindGameObjectWithTag("Player1HUD");
+        player2HUD = GameObject.FindGameObjectWithTag("Player2HUD");
     }
 
     // Update is called once per frame
@@ -44,11 +48,11 @@ public class EnemyAttack : MonoBehaviour
         { 
             if (collision.gameObject.transform.parent.name == "Player 1")
             {
-                GameObject.FindGameObjectWithTag("Player1HUD").GetComponent<PlayerHealth>().TakeDamage(10);
+                player1HUD.GetComponent<PlayerHealth>().TakeDamage(10);
             }
             else if (collision.gameObject.transform.parent.name == "Player 2")
             {
-                GameObject.FindGameObjectWithTag("Player2HUD").GetComponent<PlayerHealth>().TakeDamage(10);
+                player2HUD.GetComponent<PlayerHealth>().TakeDamage(10);
             }
         }
     }
@@ -98,7 +102,7 @@ public class EnemyAttack : MonoBehaviour
         enemyMovement.isAttacking = true;
         warningLight.color = new Color(RWarnR, RWarnG, RWarnB, 1);
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.4f);
         enemyMovement.isPerfectDodge = true;
         yield return new WaitForSeconds(0.2f);
         warningLight.color = new Color(warningLight.color.r, warningLight.color.g, warningLight.color.b, 0);
@@ -122,7 +126,7 @@ public class EnemyAttack : MonoBehaviour
         enemyMovement.isAttacking = true;
         warningLight.color = new Color(YWarnR, YWarnG, YWarnB, 1);
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.4f);
         enemyMovement.isPerfectDodge = true;
         yield return new WaitForSeconds(0.2f);
         enemyMovement.isParryable = false;

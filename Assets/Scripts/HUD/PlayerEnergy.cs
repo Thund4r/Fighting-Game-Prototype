@@ -23,7 +23,7 @@ public class PlayerEnergy : MonoBehaviour
         UpdateEnergy();
     }
 
-    public void UpdateEnergy()
+    private void UpdateEnergy()
     {
         float energyFill = EnergyBar.fillAmount;
         float energyFrac = energy / maxMP;

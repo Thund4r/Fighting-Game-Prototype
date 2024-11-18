@@ -6,6 +6,7 @@ public class AnimationManager : MonoBehaviour
 {
     [SerializeField] private PlayerAttack playerAttack;
     [SerializeField] private PlayerOverheat player1HUD;
+    [SerializeField] private SwordEnergy swordEnergy;
     // Start is called before the first frame update
     private void Start()
     {
@@ -68,5 +69,15 @@ public class AnimationManager : MonoBehaviour
     public void MeleeDodge2()
     {
         playerAttack.MeleeDodge2();
+    }
+
+    public void BeginSwordFinisher()
+    {
+        swordEnergy.SetSwordFinisher(true);
+    }
+
+    public void EndSwordFinisher()
+    {
+        swordEnergy.SetSwordFinisher(false);
     }
 }
