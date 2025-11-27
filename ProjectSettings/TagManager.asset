@@ -11,6 +11,7 @@ TagManager:
   - PersistentHUD
   - Player1HUD
   - Player2HUD
+  - CharManager
   layers:
   - Default
   - TransparentFX

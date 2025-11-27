@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerAttack : MonoBehaviour
 {
@@ -99,7 +97,11 @@ public class PlayerAttack : MonoBehaviour
             {
                 mAnimator.SetTrigger("Attack3");
                 noOfClicks = 0;
-                timer = 2f;
+                if (charManager.activeChar.name == "Player 2")
+                {
+                    timer = 2f;
+                }
+                    
             }
         }
 
