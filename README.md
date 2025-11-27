@@ -1,5 +1,35 @@
 My attempt at recreating Zenless Zone Zero combat mechanics.
 
+# To run:
+* Go to releases, and download Executable.zip
+* Run the game with Simple Fighting Game Prototype.exe
+
+# Tutorial:
+## Controls
+LMB click - Basic attack  
+LMB hold - Charge attack  
+Shift - Dodge  
+WASD - Movement  
+Spacebar - Parry/Swap  
+E - Ex Special attack (only avaliable for white)  
+## Mechanics
+* A yellow indicator when the enemy attacks means the attack is parryable with Spacebar.
+* Parrying an attack builds stun on the enemy and interrupts the attack, but consumes a point of parry (resource at the bottom right).
+* Yellow bar underneath enemy health is the stun bar, when filled will stun enemy and allow for chain attack.
+* Stunned enemies take more damage, and chain attacks replenish parry points.
+
+White:
+* Use basic and charge attacks to build up EX Special.
+* Charge attack has high damage, but has a limited duration (orange bar). When filled up, will need to cool down.
+* Ex Special does more damage, interrupts enemy actions and makes you invulnerable.
+* Fast attacks does more hitstun, reducing enemy attack frequency.
+
+Orange:
+* Use basic attacks to charge up sword energy.
+* When sword energy is full, use charge attack to launch an attack that when hit, upgrades your sword.
+* Higher sword levels does more damage, up to 2 times.
+* Slower attacks mean you would need to rely on invulnerbility frames in attack string and charged attacks.
+
 # Content added - 
 * Movement					                        (17/8/2024)
 * Third person camera				                (17/8/2024)
@@ -26,14 +56,12 @@ My attempt at recreating Zenless Zone Zero combat mechanics.
 
 # To be added -
 * Fix Chain attack for multiple characters
-* Add a different HUD for the new character
 * Add hitstun for player (animation slows down on hits)
-* ~~Burnice (close approximation)~~
 
 # Original Character Idea - 
 Perfect timing right click counter. (Like sheath mode using LS in monster hunter or foresight slash)
 
-Special resource that can be built up by doing damage, and can be ranked up by doing hold attack (like seth), and being able to consume one rank of the resource to perform Ex Special attack. Character does not have energy.
+Special resource that can be built up by doing damage, and can be ranked up by doing hold attack (like seth), and being able to consume one rank of the resource to perform Ex Special attack. Character does not have energy.  
 As the weapon ranks up, character damage increases too, and Ex-Special damage also increases.
 
 Timestop for hold attack to rank up special resource.
